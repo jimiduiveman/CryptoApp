@@ -1,5 +1,9 @@
 # CryptoApp
 
+Name: Jimi Duiveman
+
+Studentnumber: 11023163
+
 ## Problem statement
 
 People who are active in the fairly new world of the cryptocurrencies want to stay updated all day.
