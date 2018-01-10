@@ -41,3 +41,6 @@ Save message written by user
 
 - **loadMessages()**
 Load all messages written by users, so they can be displayed in the tableView.
+
+- **logOut()**
+Logout the current user.
