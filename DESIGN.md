@@ -30,6 +30,9 @@ Get price history for making the graph/chart.
 - **makeTrade()**
 Sell or buy some coin.
 
+- **updatePortfolio()**
+Update portfolio with amount of coins of logged in user.
+
 - **loadTrades()**
 Load trades from Firebase to display in tableview.
 
