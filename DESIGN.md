@@ -15,34 +15,26 @@
 
 ## Functions
 
-- authenticateUser()
-
+- **authenticateUser()**
 Authentication when user logs in.
 
-- signUp()
-
+- **signUp()**
 Create new user if he hasn't an account.
 
-- loadCoinData()
-
+- **loadCoinData()**
 Get data of all coins to fill tableview with stats.
 
-- loadPriceHistory()
-
+- **loadPriceHistory()**
 Get price history for making the graph/chart.
 
-- makeTrade()
-
+- **makeTrade()**
 Sell or buy some coin.
 
-- loadTrades()
-
+- **loadTrades()**
 Load trades from Firebase to display in tableview.
 
-- saveMessage()
-
+- **saveMessage()**
 Save message written by user
 
-- loadMessages()
-
-Load all messages written by users, so they can be displayed in the tableView
+- **loadMessages()**
+Load all messages written by users, so they can be displayed in the tableView.
