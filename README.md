@@ -29,6 +29,7 @@ coin stats, portfolio, social activity, trade history
 
 Data sources:
 - https://coinmarketcap.com/api/
+- https://www.cryptocompare.com/api/
 
 External components:
 - https://firebase.com
