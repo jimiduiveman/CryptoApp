@@ -1,0 +1,6 @@
+framework module Pods_CoinrTests {
+  umbrella header "Pods-CoinrTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
