@@ -15,21 +15,21 @@ struct Coin {
     var name: String
     var symbol: String
     var price: String
-    var onehr_change: String
+    var sevenday_change: String
     var twentyfourhr_change: String
-    var twentyfourhr_volume: String
+    var available_supply: String
     var marketcap: String
     var logo: String
     
-    init(id: String, name: String, symbol: String, price: String, onehr_change: String, twentyfourhr_change: String, twentyfourhr_volume: String, marketcap: String, logo: String) {
+    init(id: String, name: String, symbol: String, price: String, sevenday_change: String, twentyfourhr_change: String, available_supply: String, marketcap: String, logo: String) {
         
         self.id = id
         self.name = name
         self.symbol = symbol
         self.price = price
-        self.onehr_change = onehr_change
+        self.sevenday_change = sevenday_change
         self.twentyfourhr_change = twentyfourhr_change
-        self.twentyfourhr_volume = twentyfourhr_volume
+        self.available_supply = available_supply
         self.marketcap = marketcap
         self.logo = logo
     }
@@ -40,9 +40,9 @@ struct Coin {
                     "name": self.name,
                     "symbol": self.symbol,
                     "price": self.price,
-                    "onehr_change": self.onehr_change,
+                    "sevenday_change": self.sevenday_change,
                     "twentyfourhr_change": self.twentyfourhr_change,
-                    "twentyfourhr_volume": self.twentyfourhr_volume,
+                    "available_supply": self.available_supply,
                     "marketcap": self.marketcap,
                     "logo": self.logo
             ] as [String : Any]

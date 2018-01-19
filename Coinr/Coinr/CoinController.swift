@@ -37,19 +37,21 @@ class CoinController {
                         let name = eachCoin["name"] as! String
                         let symbol = eachCoin["symbol"] as! String
                         let price = eachCoin["price_usd"] as! String
+                        //let priceDict = "https://min-api.cryptocompare.com/data/price?fsym="+symbol+"&tsyms=USD"
+                        //let price = priceDict
                         let marketcap = eachCoin["market_cap_usd"] as! String
-                        var onehr_change = "0.0"
-                        if (eachCoin["percent_change_1h"] as? String) != nil {
-                            onehr_change = eachCoin["percent_change_1h"] as! String
+                        var sevenday_change = "0.0"
+                        if (eachCoin["percent_change_7d"] as? String) != nil {
+                            sevenday_change = eachCoin["percent_change_7d"] as! String
                         }
                         var twentyfourhr_change = "0.0"
                         if (eachCoin["percent_change_24h"] as? String) != nil {
                             twentyfourhr_change = eachCoin["percent_change_24h"] as! String
                         }
-                        let twentyfourhr_volume = eachCoin["24h_volume_usd"] as! String
+                        let available_supply = eachCoin["available_supply"] as! String
                         let logo = "https://files.coinmarketcap.com/static/img/coins/32x32/\(id).png"
                         
-                        coins.append(Coin(id: id, name: name, symbol: symbol, price: price, onehr_change: onehr_change, twentyfourhr_change: twentyfourhr_change, twentyfourhr_volume: twentyfourhr_volume, marketcap: marketcap, logo: logo))
+                        coins.append(Coin(id: id, name: name, symbol: symbol, price: price, sevenday_change: sevenday_change, twentyfourhr_change: twentyfourhr_change, available_supply: available_supply, marketcap: marketcap, logo: logo))
                     }
                     completion(coins)
                 }
@@ -74,10 +76,11 @@ class CoinController {
         task.resume()
     }
     
-    func fetchCoinHistory(coinSymbol: String, completion: @escaping ([[Double]]?) -> Void) {
+    func fetchCoinHistory(interval: String, amount: String, coinSymbol: String, completion: @escaping ([[Double]]?) -> Void) {
         var history: [[Double]] = []
         
-        let url = "http://coincap.io/history/7day/" + coinSymbol
+        let url = "https://min-api.cryptocompare.com/data/"+interval+"?fsym="+coinSymbol+"&tsym=USD&limit="+amount+"&aggregate=3&e=CCCAGG"
+        //let url = "http://coincap.io/history/" + interval + "/" + coinSymbol
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = ("GET")
         
@@ -92,8 +95,14 @@ class CoinController {
             else {
                 do {
                     let fetchedData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSDictionary
-                    history = fetchedData["price"]! as! [[Double]]
-                    completion(history)
+                    for eachFetchedItem in fetchedData["Data"] as! NSArray {
+                        let fetchedItem =  eachFetchedItem as! NSDictionary
+                        let price = fetchedItem["close"] as! Double
+                        let time = fetchedItem["time"] as! Double
+                        
+                        history.append([time,price])
+                    }
+                    completion(history) 
                 }
                 catch {
                     print("Error")

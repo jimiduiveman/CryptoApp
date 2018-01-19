@@ -16,6 +16,25 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var textFieldLoginEmail: UITextField!
     @IBOutlet weak var textFieldLoginPassword: UITextField!
     
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Auth.auth().addStateDidChangeListener() { auth, user in
+            if user != nil {
+                self.performSegue(withIdentifier: self.loginToApp, sender: nil)
+            }
+        }
+        self.hideKeyboardWhenTappedAround()
+        
+        textFieldLoginEmail.attributedPlaceholder = NSAttributedString(string: "username",
+                                                               attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        textFieldLoginPassword.attributedPlaceholder = NSAttributedString(string: "password",
+                                                                       attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        
+    }
+    
+    
     @IBAction func loginTapped(_ sender: Any) {
         Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!, password: self.textFieldLoginPassword.text!) { user, error in
             if error != nil {
@@ -62,20 +81,6 @@ class LoginViewController: UIViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
-    }
-    
-
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        Auth.auth().addStateDidChangeListener() { auth, user in
-            if user != nil {
-                self.performSegue(withIdentifier: self.loginToApp, sender: nil)
-            }
-        }
-        self.hideKeyboardWhenTappedAround()
-        
     }
     
 }

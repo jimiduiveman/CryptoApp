@@ -1,20 +1,19 @@
 //
-//  FavoriteTableViewCell.swift
+//  SocialTableViewCell.swift
 //  Coinr
 //
-//  Created by Jimi Duiveman on 15-01-18.
+//  Created by Jimi Duiveman on 16-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
 
 import UIKit
 
-class FavoriteTableViewCell: UITableViewCell {
+class SocialTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var coinName: UILabel!
-    @IBOutlet weak var coinChange: UILabel!
-    @IBOutlet weak var coinPrice: UILabel!
-    @IBOutlet weak var coinLogo: UIImageView!
-    @IBOutlet weak var coinSymbol: UILabel!
+    
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var userLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
