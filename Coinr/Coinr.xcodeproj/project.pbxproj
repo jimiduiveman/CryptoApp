@@ -11,6 +11,7 @@
 		8D031F4E200F9EF9005A3C1B /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F4D200F9EF9005A3C1B /* MarkerView.swift */; };
 		8D031F5020109C07005A3C1B /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F4F20109C07005A3C1B /* FavoritesTableViewController.swift */; };
 		8D031F5220109C11005A3C1B /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F5120109C11005A3C1B /* FavoriteTableViewCell.swift */; };
+		8D031F542014E8E2005A3C1B /* CoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F532014E8E2005A3C1B /* CoinsViewController.swift */; };
 		8D1F999E2007A35600883553 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F999D2007A35600883553 /* AppDelegate.swift */; };
 		8D1F99A32007A35600883553 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F99A12007A35600883553 /* Main.storyboard */; };
 		8D1F99A52007A35600883553 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F99A42007A35600883553 /* Assets.xcassets */; };
@@ -21,7 +22,6 @@
 		8D1F99CE2007F2E900883553 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F99CD2007F2E900883553 /* GoogleService-Info.plist */; };
 		8D1F99D0200808F900883553 /* CoinController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99CF200808F900883553 /* CoinController.swift */; };
 		8D1F99D22008098500883553 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99D12008098500883553 /* Coin.swift */; };
-		8D1F99D62008108600883553 /* MarketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99D52008108600883553 /* MarketTableViewController.swift */; };
 		8D1F99D82008276600883553 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99D72008276600883553 /* PortfolioViewController.swift */; };
 		8D1F99DA2008FB0400883553 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99D92008FB0400883553 /* DetailViewController.swift */; };
 		8D1F99DC20091A6100883553 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F99DB20091A6100883553 /* CoinTableViewCell.swift */; };
@@ -70,6 +70,7 @@
 		8D031F4D200F9EF9005A3C1B /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
 		8D031F4F20109C07005A3C1B /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoritesTableViewController.swift; path = ../../../FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		8D031F5120109C11005A3C1B /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoriteTableViewCell.swift; path = ../../../FavoriteTableViewCell.swift; sourceTree = "<group>"; };
+		8D031F532014E8E2005A3C1B /* CoinsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsViewController.swift; sourceTree = "<group>"; };
 		8D1F999A2007A35600883553 /* Coinr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coinr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1F999D2007A35600883553 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1F99A22007A35600883553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		8D1F99CD2007F2E900883553 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D1F99CF200808F900883553 /* CoinController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinController.swift; sourceTree = "<group>"; };
 		8D1F99D12008098500883553 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
-		8D1F99D52008108600883553 /* MarketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketTableViewController.swift; sourceTree = "<group>"; };
 		8D1F99D72008276600883553 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		8D1F99D92008FB0400883553 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8D1F99DB20091A6100883553 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
@@ -159,6 +159,7 @@
 			children = (
 				8D1F999D2007A35600883553 /* AppDelegate.swift */,
 				8D1F99A12007A35600883553 /* Main.storyboard */,
+				8D031F532014E8E2005A3C1B /* CoinsViewController.swift */,
 				8D031F4D200F9EF9005A3C1B /* MarkerView.swift */,
 				8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */,
 				8D410AC9200E28AC0006CE81 /* Message.swift */,
@@ -167,7 +168,6 @@
 				8D1F99DB20091A6100883553 /* CoinTableViewCell.swift */,
 				8D410ACB200E2C8E0006CE81 /* SocialTableViewCell.swift */,
 				8D1F99D92008FB0400883553 /* DetailViewController.swift */,
-				8D1F99D52008108600883553 /* MarketTableViewController.swift */,
 				8D410AC5200CF46B0006CE81 /* User.swift */,
 				8D1F99CF200808F900883553 /* CoinController.swift */,
 				8D1F99D72008276600883553 /* PortfolioViewController.swift */,
@@ -515,7 +515,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D1F99D62008108600883553 /* MarketTableViewController.swift in Sources */,
 				8D1F99D82008276600883553 /* PortfolioViewController.swift in Sources */,
 				8D1F99D0200808F900883553 /* CoinController.swift in Sources */,
 				8D410ACC200E2C8E0006CE81 /* SocialTableViewCell.swift in Sources */,
@@ -530,6 +529,7 @@
 				8D031F4E200F9EF9005A3C1B /* MarkerView.swift in Sources */,
 				8D1F99DA2008FB0400883553 /* DetailViewController.swift in Sources */,
 				8D410AC6200CF46B0006CE81 /* User.swift in Sources */,
+				8D031F542014E8E2005A3C1B /* CoinsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

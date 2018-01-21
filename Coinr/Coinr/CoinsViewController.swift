@@ -1,32 +1,37 @@
 //
-//  MarketTableViewController.swift
+//  CoinsViewController.swift
 //  Coinr
 //
-//  Created by Jimi Duiveman on 11-01-18.
+//  Created by Jimi Duiveman on 21-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-class MarketTableViewController: UITableViewController {
-    
-    var searchController = UISearchController(searchResultsController: nil)
+class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
+
     
     var coins = [Coin]()
     var filteredCoins = [Coin]()
+    var shouldShowSearchResults = false
+    var searchController: UISearchController!
     
     var userID = Auth.auth().currentUser?.uid
     
     let usersRef = Database.database().reference(withPath: "online")
     var user: User!
+
+    @IBOutlet weak var tableSearchResults: UITableView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableSearchResults.delegate = self
+        tableSearchResults.dataSource = self
         
-        setupSearchController()
-        
+        configureSearchController()
+
         CoinController.shared.fetchCoins() { (coins) in
             if let coins = coins {
                 self.updateUI(with: coins)
@@ -43,57 +48,60 @@ class MarketTableViewController: UITableViewController {
         }
     }
     
-    func setupSearchController() {
-        // Setup the Search Controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.view.tintColor = UIColor.black
-        searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.placeholder = "Search coins.."
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        
+    func updateUI(with coins: [Coin]) {
+        DispatchQueue.main.async {
+            self.coins = coins
+            self.tableSearchResults.reloadData()
+        }
     }
     
+    func configureSearchController() {
+        // Initialize and perform a minimum configuration to the search controller.
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search here..."
+        searchController.searchBar.delegate = self
+        searchController.searchBar.sizeToFit()
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.barTintColor = UIColor.black
+        
+        // Place the search bar view to the tableview headerview.
+        tableSearchResults.tableHeaderView = searchController.searchBar
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredCoins.count
+        }
+        else {
+            return coins.count
+        }
+    }
+    
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
     
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredCoins = coins.filter({( coin : Coin) -> Bool in
-            return coin.name.lowercased().contains(searchText.lowercased())
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        filteredCoins = coins.filter({ (coin) -> Bool in
+            let coinText: NSString = coin.name as NSString
+            
+            return (coinText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
         })
         
-        tableView.reloadData()
-    }
-    
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+        tableSearchResults.reloadData()
     }
     
     
-    func updateUI(with coins: [Coin]) {
-        DispatchQueue.main.async {
-            self.coins = coins
-            self.tableView.reloadData()
-        }
-    }
-
-
-    // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if isFiltering() {
-            return filteredCoins.count
-        }
-        
-        return coins.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CoinTableViewCell") as! CoinTableViewCell
         var coin: Coin
         
@@ -122,28 +130,27 @@ class MarketTableViewController: UITableViewController {
                 cell.coinLogo.image = image
             }
         }
-    
+        
         return cell
     }
-
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
-
-
     
-    // MARK: - Navigation
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
     
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toFavorites", sender: nil)
     }
     
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
+            if let indexPath = tableSearchResults.indexPathForSelectedRow {
                 let controller = segue.destination as! DetailViewController
                 let coin: Coin
                 if isFiltering() {
@@ -152,15 +159,12 @@ class MarketTableViewController: UITableViewController {
                     coin = coins[indexPath.row]
                 }
                 controller.detailCoin = coin
+                searchController.isActive = false
             }
         }
     }
     
 
-}
+    
 
-extension MarketTableViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
 }

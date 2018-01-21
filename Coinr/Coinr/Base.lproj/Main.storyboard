@@ -121,100 +121,98 @@
             </objects>
             <point key="canvasLocation" x="-87.200000000000003" y="694.90254872563719"/>
         </scene>
-        <!--Prices-->
-        <scene sceneID="Kfy-Ej-UTJ">
+        <!--Coins-->
+        <scene sceneID="hB0-ct-z2l">
             <objects>
-                <tableViewController id="DS6-zU-SI9" customClass="MarketTableViewController" customModule="Coinr" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="GnE-AW-u9h">
+                <viewController title="Coins" id="QJG-AP-5JK" customClass="CoinsViewController" customModule="Coinr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rd1-xW-Xhh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CoinTableViewCell" rowHeight="70" id="qNW-Wd-hSr" customClass="CoinTableViewCell" customModule="Coinr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="70"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qNW-Wd-hSr" id="h7n-bT-efc">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="coinName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TeC-QI-gaL">
-                                            <rect key="frame" x="60" y="12" width="139" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="coinSymbol" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQX-FA-nYV">
-                                            <rect key="frame" x="60" y="34" width="139" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="change" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6R5-0f-14N">
-                                            <rect key="frame" x="279" y="35" width="80" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2Dg-T2-ACr">
-                                            <rect key="frame" x="279" y="12" width="80" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKG-Vk-JKj">
-                                            <rect key="frame" x="16" y="19" width="30" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </tableViewCellContentView>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1FI-eA-6Hq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" red="0.27479076390000001" green="0.5571715236" blue="0.89757764340000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <outlet property="coinChange" destination="6R5-0f-14N" id="46M-3y-dgf"/>
-                                    <outlet property="coinLogo" destination="fKG-Vk-JKj" id="aNI-eP-Md1"/>
-                                    <outlet property="coinName" destination="TeC-QI-gaL" id="BbT-SU-ziK"/>
-                                    <outlet property="coinPrice" destination="2Dg-T2-ACr" id="3fC-xF-rGn"/>
-                                    <outlet property="coinSymbol" destination="hQX-FA-nYV" id="oda-yP-RKK"/>
-                                    <segue destination="2Wk-YJ-YaE" kind="show" identifier="toDetail" id="bWP-CO-zoU"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="DS6-zU-SI9" id="c6D-aj-pkg"/>
-                            <outlet property="delegate" destination="DS6-zU-SI9" id="Dpt-av-VLU"/>
-                        </connections>
-                    </tableView>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="Prices" id="G7N-V0-rta">
-                        <barButtonItem key="rightBarButtonItem" title="Favorites" image="icons8-star-filled-filled-50" id="udE-uB-7XB">
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CoinTableViewCell" rowHeight="70" id="KXh-Dj-hcB" customClass="CoinTableViewCell" customModule="Coinr" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KXh-Dj-hcB" id="QRl-fR-MAO">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="coinName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T8x-3B-3MF">
+                                                    <rect key="frame" x="53" y="11" width="166" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="coinSymbol" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5do-jW-ZvW">
+                                                    <rect key="frame" x="53" y="35" width="139" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="change" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVI-Yx-qdI">
+                                                    <rect key="frame" x="280" y="35" width="80" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zqg-V3-L4M">
+                                                    <rect key="frame" x="15" y="19" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Frl-jm-Ptg">
+                                                    <rect key="frame" x="280" y="11" width="80" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="coinChange" destination="dVI-Yx-qdI" id="TsM-oi-Dka"/>
+                                            <outlet property="coinLogo" destination="zqg-V3-L4M" id="tTv-Zk-1E2"/>
+                                            <outlet property="coinName" destination="T8x-3B-3MF" id="6br-Sx-yQA"/>
+                                            <outlet property="coinPrice" destination="Frl-jm-Ptg" id="cYh-QA-Njd"/>
+                                            <outlet property="coinSymbol" destination="5do-jW-ZvW" id="N2q-QI-UCd"/>
+                                            <segue destination="2Wk-YJ-YaE" kind="show" identifier="toDetail" id="V8w-kZ-3Jj"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1FI-eA-6Hq" firstAttribute="leading" secondItem="B7P-sE-Zpc" secondAttribute="leading" id="GZJ-Cq-5ib"/>
+                            <constraint firstItem="B7P-sE-Zpc" firstAttribute="trailing" secondItem="1FI-eA-6Hq" secondAttribute="trailing" id="TgO-Le-XQ8"/>
+                            <constraint firstItem="B7P-sE-Zpc" firstAttribute="bottom" secondItem="1FI-eA-6Hq" secondAttribute="bottom" id="U0v-LL-HyJ"/>
+                            <constraint firstItem="1FI-eA-6Hq" firstAttribute="top" secondItem="B7P-sE-Zpc" secondAttribute="top" id="hTY-6V-NeF"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="B7P-sE-Zpc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Coins" id="llL-ez-kf3">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="icons8-star-filled-filled-50" id="JFc-Nf-oND">
                             <connections>
-                                <action selector="favoriteButtonTapped:" destination="DS6-zU-SI9" id="75b-Ey-cyA"/>
+                                <segue destination="92t-Gm-vv6" kind="show" identifier="toFavorites" id="5ix-QD-ZZO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchDisplayController" destination="GyW-jn-xBb" id="F2x-f6-gpx"/>
-                        <segue destination="92t-Gm-vv6" kind="show" identifier="toFavorites" id="vUD-JL-xvm"/>
+                        <outlet property="tableSearchResults" destination="1FI-eA-6Hq" id="vAo-2P-kpc"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m2B-Q8-5Fs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="GyW-jn-xBb">
-                    <connections>
-                        <outlet property="delegate" destination="DS6-zU-SI9" id="36a-XD-Xez"/>
-                        <outlet property="searchContentsController" destination="DS6-zU-SI9" id="1px-6W-Gsh"/>
-                        <outlet property="searchResultsDataSource" destination="DS6-zU-SI9" id="2Ko-Rk-g5n"/>
-                        <outlet property="searchResultsDelegate" destination="DS6-zU-SI9" id="r7p-Yc-TBq"/>
-                    </connections>
-                </searchDisplayController>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="an5-WG-GcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2413.5999999999999" y="-25.637181409295355"/>
+            <point key="canvasLocation" x="2414" y="-52"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="Gqk-5q-nQB">
@@ -288,7 +286,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5lv-p7-1Vj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3286" y="233"/>
+            <point key="canvasLocation" x="3294" y="379"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="1oe-KR-jmz">
@@ -502,11 +500,37 @@
                         <outlet property="sevenday_change" destination="9r0-cV-4Zs" id="4ze-1P-KEN"/>
                         <outlet property="transactionButton" destination="jLN-S9-WNy" id="NoK-Hd-oVX"/>
                         <outlet property="twentyfourhour_change" destination="Obn-QB-eYr" id="EIq-y2-NWA"/>
+                        <segue destination="qcY-EA-nRA" kind="show" identifier="addTransaction" id="ZxG-bz-Z21"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YOa-pu-fmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4081" y="-304"/>
+            <point key="canvasLocation" x="4076" y="-155"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="HFN-gu-cDh">
+            <objects>
+                <viewController id="qcY-EA-nRA" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FyF-a8-ocb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zUZ-3a-rYb">
+                                <rect key="frame" x="16" y="0.0" width="343" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Buy"/>
+                                    <segment title="Sell"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="DFb-GU-DIS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JdJ-0D-30n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4894" y="-155"/>
         </scene>
         <!--Trades-->
         <scene sceneID="OCe-yq-Usi">
@@ -654,7 +678,7 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="tiB-Yt-eBc" kind="relationship" relationship="viewControllers" id="uIS-DE-R5x"/>
+                        <segue destination="iDr-OX-0x1" kind="relationship" relationship="viewControllers" id="8nV-JF-Yuf"/>
                         <segue destination="y2c-B9-5zM" kind="relationship" relationship="viewControllers" id="FLn-fw-SOg"/>
                         <segue destination="PEl-2V-pUg" kind="relationship" relationship="viewControllers" id="XC4-I4-EPx"/>
                         <segue destination="2PE-j8-sSv" kind="relationship" relationship="viewControllers" id="kAT-Vc-FIC"/>
@@ -663,35 +687,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTS-cg-LlJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="748" y="695"/>
-        </scene>
-        <!--Prices-->
-        <scene sceneID="g1y-nr-CgK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tiB-Yt-eBc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Prices" image="icons8-us-dollar-filled-50" selectedImage="icons8-us-dollar-filled-50" id="vkR-jG-2AO"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="rlW-zq-F9n">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="DS6-zU-SI9" kind="relationship" relationship="rootViewController" id="gqn-hH-5Ac"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="f1T-Iq-nif" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1594" y="-24"/>
         </scene>
         <!--Trades-->
         <scene sceneID="fQy-iJ-jdR">
@@ -780,6 +775,30 @@
             </objects>
             <point key="canvasLocation" x="511" y="1463"/>
         </scene>
+        <!--Coins-->
+        <scene sceneID="SDb-cK-1gV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iDr-OX-0x1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Coins" image="icons8-us-dollar-filled-50" selectedImage="icons8-us-dollar-filled-50" id="Oo0-Cu-bat"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="0WY-ad-IHH">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QJG-AP-5JK" kind="relationship" relationship="rootViewController" id="TH8-uS-WGR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DOo-up-GUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1593" y="-51"/>
+        </scene>
     </scenes>
     <resources>
         <image name="background_dark" width="976" height="1732"/>
@@ -792,7 +811,7 @@
         <image name="icons8-us-dollar-filled-50" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bWP-CO-zoU"/>
+        <segue reference="V8w-kZ-3Jj"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
