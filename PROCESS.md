@@ -37,6 +37,16 @@ Made the search-bar also filter favorites.
 Changed the layout of the line chart and the segmented control.
 Changed the layout of the detail page.
 
-*Week 3 - Thursday*
+*Week 2 - Thursday*
 
 Switched to a dark theme.
+
+*Week 3 - Monday*
+
+Implemented a segmented control with all/favorites including the search bar.
+Changed the lay-out of the search bar.
+
+*Week 3 - Tuesday*
+
+Finished the transaction page with live calculations based on user input.
+...
