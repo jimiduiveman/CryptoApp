@@ -14,16 +14,27 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var coins = [Coin]()
     var filteredCoins = [Coin]()
+    var favorites = [Coin]()
+    
     var shouldShowSearchResults = false
-    var searchController: UISearchController!
+    
+    let favoritesRef = Database.database().reference(withPath: "favorites")
     
     var userID = Auth.auth().currentUser?.uid
-    
     let usersRef = Database.database().reference(withPath: "online")
     var user: User!
 
     @IBOutlet weak var tableSearchResults: UITableView!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    var searchController: UISearchController!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadFromFirebase()
+        tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +42,8 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableSearchResults.dataSource = self
         
         configureSearchController()
+        
+        loadFromFirebase()
 
         CoinController.shared.fetchCoins() { (coins) in
             if let coins = coins {
@@ -55,6 +68,32 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    func loadFromFirebase() {
+        favoritesRef.child(userID!).observeSingleEvent(of: .value) { (snap: DataSnapshot) in
+            var newFavorites: [Coin] = []
+            if snap.exists() {
+                if let dict = snap.value as? [String: NSDictionary] {
+                    for item in dict {
+                        let id = (item.value as NSDictionary)["id"] as! String
+                        let name = (item.value as NSDictionary)["name"] as! String
+                        let symbol = (item.value as NSDictionary)["symbol"] as! String
+                        let price = (item.value as NSDictionary)["price"] as! String
+                        let sevenday_change = (item.value as NSDictionary)["sevenday_change"] as! String
+                        let twentyfourhr_change = (item.value as NSDictionary)["twentyfourhr_change"] as! String
+                        let available_supply = (item.value as NSDictionary)["available_supply"] as! String
+                        let marketcap = (item.value as NSDictionary)["marketcap"] as! String
+                        let logo = (item.value as NSDictionary)["logo"] as! String
+                        
+                        let coin = Coin(id: id, name: name, symbol: symbol, price: price, sevenday_change: sevenday_change, twentyfourhr_change: twentyfourhr_change, available_supply: available_supply, marketcap: marketcap, logo: logo)
+                        newFavorites.append(coin)
+                    }
+                    self.favorites = newFavorites
+                    self.tableSearchResults.reloadData()
+                }
+            }
+        }
+    }
+    
     func configureSearchController() {
         // Initialize and perform a minimum configuration to the search controller.
         searchController = UISearchController(searchResultsController: nil)
@@ -64,19 +103,51 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchController.searchBar.delegate = self
         searchController.searchBar.sizeToFit()
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.barTintColor = UIColor.black
+        searchController.searchBar.barTintColor = .black
+        searchController.searchBar.tintColor = .white
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .black
         
         // Place the search bar view to the tableview headerview.
         tableSearchResults.tableHeaderView = searchController.searchBar
     }
     
+    
+    @IBAction func segmentChanged(_ sender: Any) {
+        loadFromFirebase()
+        tableSearchResults.reloadData()
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            return filteredCoins.count
+        
+        var returnValue = 0
+        
+        switch(segmentedControl.selectedSegmentIndex) {
+        case 0:
+            if isFiltering() {
+                returnValue = filteredCoins.count
+            }
+            else {
+                returnValue = coins.count
+            }
+            break
+        case 1:
+            if isFiltering() {
+                returnValue = filteredCoins.count
+            }
+            else {
+                returnValue = favorites.count
+            }
+
+            break
+            
+        default:
+            break
+            
         }
-        else {
-            return coins.count
-        }
+        
+        return returnValue
     }
     
     
@@ -90,14 +161,34 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        let searchString = searchController.searchBar.text
-        filteredCoins = coins.filter({ (coin) -> Bool in
-            let coinText: NSString = coin.name as NSString
-            
-            return (coinText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
-        })
         
-        tableSearchResults.reloadData()
+        switch(segmentedControl.selectedSegmentIndex) {
+        case 0:
+            let searchString = searchController.searchBar.text
+            filteredCoins = coins.filter({ (coin) -> Bool in
+                let coinText: NSString = coin.name as NSString
+                
+                return (coinText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+            })
+            
+            tableSearchResults.reloadData()
+            break
+            
+        case 1:
+            let searchString = searchController.searchBar.text
+            filteredCoins = favorites.filter({ (coin) -> Bool in
+                let coinText: NSString = coin.name as NSString
+                
+                return (coinText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+            })
+            
+            tableSearchResults.reloadData()
+            break
+ 
+        default:
+            break
+            
+        }
     }
     
     
@@ -105,30 +196,67 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "CoinTableViewCell") as! CoinTableViewCell
         var coin: Coin
         
-        if isFiltering() {
-            coin = filteredCoins[indexPath.row]
-        }
-        else {
-            coin = coins[indexPath.row]
-        }
-        
-        cell.coinName!.text = "\(coin.name)"
-        cell.coinSymbol!.text = "\(coin.symbol)"
-        cell.coinChange!.text = "\(coin.twentyfourhr_change)%"
-        if coin.twentyfourhr_change.starts(with: "-") {
-            cell.coinChange!.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-        } else {
-            cell.coinChange!.textColor = #colorLiteral(red: 0, green: 0.8188306689, blue: 0.2586435676, alpha: 1)
-        }
-        
-        let coinPrice = (coin.price as NSString).doubleValue
-        cell.coinPrice.text = "\((coinPrice).formattedWithSeparator)"
-        
-        CoinController.shared.fetchImage(url: URL(string: coin.logo)! ) { (image) in
-            guard let image = image else { return }
-            DispatchQueue.main.async {
-                cell.coinLogo.image = image
+        switch(segmentedControl.selectedSegmentIndex) {
+        case 0:
+            if isFiltering() {
+                coin = filteredCoins[indexPath.row]
             }
+            else {
+                coin = coins[indexPath.row]
+            }
+            
+            cell.coinName!.text = "\(coin.name)"
+            cell.coinSymbol!.text = "\(coin.symbol)"
+            cell.coinChange!.text = "\(coin.twentyfourhr_change)%"
+            if coin.twentyfourhr_change.starts(with: "-") {
+                cell.coinChange!.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            } else {
+                cell.coinChange!.textColor = #colorLiteral(red: 0, green: 0.8188306689, blue: 0.2586435676, alpha: 1)
+            }
+            
+            let coinPrice = (coin.price as NSString).doubleValue
+            cell.coinPrice.text = "\((coinPrice).formattedWithSeparator)"
+            
+            CoinController.shared.fetchImage(url: URL(string: coin.logo)! ) { (image) in
+                guard let image = image else { return }
+                DispatchQueue.main.async {
+                    cell.coinLogo.image = image
+                }
+            }
+            
+            break
+        case 1:
+            if isFiltering() {
+                coin = filteredCoins[indexPath.row]
+            }
+            else {
+                coin = favorites[indexPath.row]
+            }
+            
+            cell.coinName!.text = "\(coin.name)"
+            cell.coinSymbol!.text = "\(coin.symbol)"
+            cell.coinChange!.text = "\(coin.twentyfourhr_change)%"
+            if coin.twentyfourhr_change.starts(with: "-") {
+                cell.coinChange!.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            } else {
+                cell.coinChange!.textColor = #colorLiteral(red: 0, green: 0.8188306689, blue: 0.2586435676, alpha: 1)
+            }
+            
+            let coinPrice = (coin.price as NSString).doubleValue
+            cell.coinPrice.text = "\((coinPrice).formattedWithSeparator)"
+            
+            CoinController.shared.fetchImage(url: URL(string: coin.logo)! ) { (image) in
+                guard let image = image else { return }
+                DispatchQueue.main.async {
+                    cell.coinLogo.image = image
+                }
+            }
+            
+            break
+
+        default:
+            break
+            
         }
         
         return cell
@@ -143,22 +271,37 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return 1
     }
     
-    @IBAction func favoriteButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "toFavorites", sender: nil)
-    }
-    
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetail" {
             if let indexPath = tableSearchResults.indexPathForSelectedRow {
                 let controller = segue.destination as! DetailViewController
                 let coin: Coin
-                if isFiltering() {
-                    coin = filteredCoins[indexPath.row]
-                } else {
-                    coin = coins[indexPath.row]
+                
+                switch(segmentedControl.selectedSegmentIndex) {
+                case 0:
+                    if isFiltering() {
+                        coin = filteredCoins[indexPath.row]
+                    }
+                    else {
+                        coin = coins[indexPath.row]
+                    }
+                    controller.detailCoin = coin
+                    break
+                case 1:
+                    if isFiltering() {
+                        coin = filteredCoins[indexPath.row]
+                    }
+                    else {
+                        coin = favorites[indexPath.row]
+                    }
+                    controller.detailCoin = coin
+                    break
+                    
+                default:
+                    break
+                    
                 }
-                controller.detailCoin = coin
+
                 searchController.isActive = false
             }
         }

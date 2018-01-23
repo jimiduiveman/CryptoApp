@@ -137,8 +137,6 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         
         segmentDetailPage.backgroundColor = UIColor.black
         segmentDetailPage.tintColor = .clear
-        //segmentDetailPage.layer.borderColor = #colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 1).cgColor
-        //segmentDetailPage.layer.borderWidth = 2
         segmentDetailPage.setTitleTextAttributes([
             NSAttributedStringKey.font : UIFont(name: "Avenir", size: 16) as Any,
             NSAttributedStringKey.foregroundColor: UIColor.white
@@ -272,23 +270,23 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         }
         if segmentDetailPage.selectedSegmentIndex == 1 {
             interval = "histominute"
-            amount = "3600"
+            amount = "1000"
         }
         if segmentDetailPage.selectedSegmentIndex == 2 {
             interval = "histohour"
-            amount = "168"
+            amount = "60"
         }
         if segmentDetailPage.selectedSegmentIndex == 3 {
             interval = "histohour"
-            amount = "720"
+            amount = "260"
         }
         if segmentDetailPage.selectedSegmentIndex == 4 {
             interval = "histoday"
-            amount = "180"
+            amount = "65"
         }
         if segmentDetailPage.selectedSegmentIndex == 5 {
             interval = "histoday"
-            amount = "365"
+            amount = "125"
         }
         
         CoinController.shared.fetchCoinHistory(interval: interval, amount: amount ,coinSymbol: (detailCoin?.symbol)!) { (coinhistory) in
