@@ -11,6 +11,9 @@
 		8D031F4E200F9EF9005A3C1B /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F4D200F9EF9005A3C1B /* MarkerView.swift */; };
 		8D031F542014E8E2005A3C1B /* CoinsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F532014E8E2005A3C1B /* CoinsViewController.swift */; };
 		8D031F582015EDA4005A3C1B /* MakeTradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */; };
+		8D031F5A20176A2D005A3C1B /* Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F5920176A2D005A3C1B /* Trade.swift */; };
+		8D031F5C2017853A005A3C1B /* TradesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */; };
+		8D031F5E201787A2005A3C1B /* TradeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */; };
 		8D1F999E2007A35600883553 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F999D2007A35600883553 /* AppDelegate.swift */; };
 		8D1F99A32007A35600883553 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F99A12007A35600883553 /* Main.storyboard */; };
 		8D1F99A52007A35600883553 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F99A42007A35600883553 /* Assets.xcassets */; };
@@ -69,6 +72,9 @@
 		8D031F4D200F9EF9005A3C1B /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
 		8D031F532014E8E2005A3C1B /* CoinsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsViewController.swift; sourceTree = "<group>"; };
 		8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeTradeViewController.swift; sourceTree = "<group>"; };
+		8D031F5920176A2D005A3C1B /* Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade.swift; sourceTree = "<group>"; };
+		8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradesTableViewController.swift; sourceTree = "<group>"; };
+		8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeTableViewCell.swift; sourceTree = "<group>"; };
 		8D1F999A2007A35600883553 /* Coinr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coinr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1F999D2007A35600883553 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1F99A22007A35600883553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -158,6 +164,9 @@
 				8D1F999D2007A35600883553 /* AppDelegate.swift */,
 				8D1F99A12007A35600883553 /* Main.storyboard */,
 				8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */,
+				8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */,
+				8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */,
+				8D031F5920176A2D005A3C1B /* Trade.swift */,
 				8D031F532014E8E2005A3C1B /* CoinsViewController.swift */,
 				8D031F4D200F9EF9005A3C1B /* MarkerView.swift */,
 				8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */,
@@ -516,7 +525,10 @@
 				8D1F99D0200808F900883553 /* CoinController.swift in Sources */,
 				8D410ACC200E2C8E0006CE81 /* SocialTableViewCell.swift in Sources */,
 				8D410AC8200DFFF20006CE81 /* SocialTableViewController.swift in Sources */,
+				8D031F5C2017853A005A3C1B /* TradesTableViewController.swift in Sources */,
 				8D031F582015EDA4005A3C1B /* MakeTradeViewController.swift in Sources */,
+				8D031F5E201787A2005A3C1B /* TradeTableViewCell.swift in Sources */,
+				8D031F5A20176A2D005A3C1B /* Trade.swift in Sources */,
 				8D1F99CC2007F0AE00883553 /* LoginViewController.swift in Sources */,
 				8D1F99D22008098500883553 /* Coin.swift in Sources */,
 				8D1F999E2007A35600883553 /* AppDelegate.swift in Sources */,

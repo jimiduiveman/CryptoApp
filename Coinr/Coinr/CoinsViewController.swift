@@ -32,7 +32,10 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        loadFromFirebase()
+        
+        configureSearchController()
+        checkDatabase()
+        
         tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
     }
     
@@ -43,7 +46,7 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         configureSearchController()
         
-        loadFromFirebase()
+        checkDatabase()
 
         CoinController.shared.fetchCoins() { (coins) in
             if let coins = coins {
@@ -68,30 +71,26 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func loadFromFirebase() {
+    func checkDatabase() {
+        var newFavorites: [Coin] = []
         favoritesRef.child(userID!).observeSingleEvent(of: .value) { (snap: DataSnapshot) in
-            var newFavorites: [Coin] = []
             if snap.exists() {
-                if let dict = snap.value as? [String: NSDictionary] {
-                    for item in dict {
-                        let id = (item.value as NSDictionary)["id"] as! String
-                        let name = (item.value as NSDictionary)["name"] as! String
-                        let symbol = (item.value as NSDictionary)["symbol"] as! String
-                        let price = (item.value as NSDictionary)["price"] as! String
-                        let sevenday_change = (item.value as NSDictionary)["sevenday_change"] as! String
-                        let twentyfourhr_change = (item.value as NSDictionary)["twentyfourhr_change"] as! String
-                        let available_supply = (item.value as NSDictionary)["available_supply"] as! String
-                        let marketcap = (item.value as NSDictionary)["marketcap"] as! String
-                        let logo = (item.value as NSDictionary)["logo"] as! String
-                        
-                        let coin = Coin(id: id, name: name, symbol: symbol, price: price, sevenday_change: sevenday_change, twentyfourhr_change: twentyfourhr_change, available_supply: available_supply, marketcap: marketcap, logo: logo)
-                        newFavorites.append(coin)
+                if let list = snap.value as? NSDictionary {
+                    for item in list {
+                        for coin in self.coins {
+                            if coin.symbol == item.value as! String {
+                                newFavorites.append(coin)
+                            }
+                        }
                     }
-                    self.favorites = newFavorites
-                    self.tableSearchResults.reloadData()
+                    DispatchQueue.main.async {
+                        self.favorites = newFavorites
+                        self.tableSearchResults.reloadData()
+                    }
                 }
             }
         }
+        self.tableSearchResults.reloadData()
     }
     
     func configureSearchController() {
@@ -103,10 +102,14 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchController.searchBar.delegate = self
         searchController.searchBar.sizeToFit()
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.barTintColor = .black
-        searchController.searchBar.tintColor = .white
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .black
+        searchController.searchBar.barTintColor = UIColor.black
+        searchController.searchBar.tintColor = UIColor.white
+        searchController.searchBar.searchBarStyle = UISearchBarStyle.prominent
+        
+        let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        
+        textFieldInsideSearchBar?.textColor = .white
+        textFieldInsideSearchBar?.backgroundColor = .black
         
         // Place the search bar view to the tableview headerview.
         tableSearchResults.tableHeaderView = searchController.searchBar
@@ -114,8 +117,7 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     @IBAction func segmentChanged(_ sender: Any) {
-        loadFromFirebase()
-        tableSearchResults.reloadData()
+        checkDatabase()
     }
     
     
@@ -213,9 +215,13 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 cell.coinChange!.textColor = #colorLiteral(red: 0, green: 0.8188306689, blue: 0.2586435676, alpha: 1)
             }
-            
-            let coinPrice = (coin.price as NSString).doubleValue
-            cell.coinPrice.text = "\((coinPrice).formattedWithSeparator)"
+            if coin.price.starts(with: "0") {
+                cell.coinPrice.text = "$\(coin.price)"
+            }
+            else {
+                let coinPrice = (coin.price as NSString).doubleValue
+                cell.coinPrice.text = "\((coinPrice).formattedWithSeparator)"
+            }
             
             CoinController.shared.fetchImage(url: URL(string: coin.logo)! ) { (image) in
                 guard let image = image else { return }
@@ -301,10 +307,9 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     break
                     
                 }
-
-                searchController.isActive = false
             }
         }
+        searchController.isActive = false
     }
     
 

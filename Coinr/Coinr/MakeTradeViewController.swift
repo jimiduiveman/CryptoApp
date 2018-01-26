@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MakeTradeViewController: UIViewController {
 
@@ -16,38 +17,67 @@ class MakeTradeViewController: UIViewController {
     @IBOutlet weak var pricePerCoin: UITextField!
     @IBOutlet weak var amountCoin: UITextField!
     @IBOutlet weak var totalPriceTrade: UILabel!
-  
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        var amountAfterUpdate = ""
-//        var priceAfterUpdate = ""
-//        if textField == pricePerCoin {
-//            if let textPrice = pricePerCoin.text as NSString? {
-//                priceAfterUpdate = textPrice.replacingCharacters(in: range, with: string)
-//                print(priceAfterUpdate)
-//            }
-//        }
-//        if textField == amountCoin {
-//            if let textAmount = pricePerCoin.text as NSString? {
-//                amountAfterUpdate = textAmount.replacingCharacters(in: range, with: string)
-//                print(amountAfterUpdate)
-//            }
-//        }
-//        if priceAfterUpdate != "" && amountAfterUpdate != "" {
-//            totalPriceTrade.text = String( Double(priceAfterUpdate)!+Double(amountAfterUpdate)! )
-//        }
-//        return true
-//    }
+    @IBOutlet weak var coinName: UILabel!
+    @IBOutlet weak var coinSymbol: UILabel!
+    
+    var userID = Auth.auth().currentUser?.uid
+    let tradesRef = Database.database().reference(withPath: "trades")
+    let messageRef = Database.database().reference(withPath: "messages")
+    var tradeCoin: Coin!
+    var username = ""
+    
     
     
     @IBAction func priceDidChange(_ sender: UITextField) {
         if sender.text != "" && amountCoin.text != "" {
-            totalPriceTrade.text = String( Double(sender.text!)! * Double(amountCoin.text!)! )
+            var price = ""
+            var amount = ""
+            price = String( sender.text!.split(separator: ",").joined(separator: ["."]) )
+            amount = String ( amountCoin.text!.split(separator: ",").joined(separator: ["."]) )
+            totalPriceTrade.text = String( Double(price)! * Double(amount)! )
         }
     }
     
     @IBAction func amountDidChange(_ sender: UITextField) {
         if sender.text != "" && pricePerCoin.text != "" {
-            totalPriceTrade.text = String( Double(pricePerCoin.text!)! * Double(sender.text!)! )
+            var price = ""
+            var amount = ""
+            price = String( pricePerCoin.text!.split(separator: ",").joined(separator: ["."]) )
+            amount = String ( sender.text!.split(separator: ",").joined(separator: ["."]) )
+            totalPriceTrade.text = String( Double(price)! * Double(amount)! )
+        }
+    }
+    
+    
+    @IBAction func transactionButtonDidTouch(_ sender: UIButton) {
+        var type = ""
+        var action = ""
+        if segmentTradePage.selectedSegmentIndex == 0{
+            type = "Buy"
+            action = "bought"
+        }
+        else {
+            type = "Sell"
+            action = "sold" 
+        }
+        
+        var price = ""
+        var amount = ""
+        price = String( pricePerCoin.text!.split(separator: ",").joined(separator: ["."]) )
+        amount = String ( amountCoin.text!.split(separator: ",").joined(separator: ["."]) )
+        
+        if pricePerCoin.text! != "" && amountCoin.text! != "" {
+            let trade = Trade(coinSymbol: tradeCoin.symbol, coinPriceBought: price, totalPrice: totalPriceTrade.text!, amountBought: amount, timeStamp: String(describing: NSDate()), type: type)
+            
+            let personalTradeRef = tradesRef.child(userID!).child( String(describing: NSDate()) )
+            personalTradeRef.setValue(trade.toAnyObject())
+            
+            let message = Message(message: "\(self.username) \(action) \(tradeCoin.symbol)", addedByUser: self.username, timeStamp: String(describing: NSDate()) )
+            let thisMessageRef = self.messageRef.child(String(describing: NSDate()))
+            thisMessageRef.setValue(message.toAnyObject())
+            
+            
+            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -57,8 +87,24 @@ class MakeTradeViewController: UIViewController {
         configureTransactionButton()
         configureSegment()
         
+        coinName.text = tradeCoin.name
+        coinSymbol.text = tradeCoin.symbol
+        
+        getUsername()
+        
         pricePerCoin.attributedPlaceholder = NSAttributedString(string: "Fill in price", attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
         amountCoin.attributedPlaceholder = NSAttributedString(string: "Fill in amount", attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+    }
+    
+    func getUsername() {
+        let userRef = Database.database().reference().child("users").child(self.userID!)
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            self.username = value!["username"] as! String
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
     func configureTransactionButton() {

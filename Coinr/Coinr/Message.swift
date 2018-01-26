@@ -15,33 +15,33 @@ import Firebase
 struct Message {
     
     let key: String
-    let name: String
     let message: String
     let addedByUser: String
+    let timeStamp: String
     let ref: DatabaseReference?
     
-    init(name: String, message: String, addedByUser: String, key: String = "") {
+    init(message: String, addedByUser: String, timeStamp: String, key: String = "") {
         self.key = key
-        self.name = name
         self.message = message
         self.addedByUser = addedByUser
+        self.timeStamp = timeStamp
         self.ref = nil
     }
     
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        name = snapshotValue["name"] as! String
         message = snapshotValue["message"] as! String
         addedByUser = snapshotValue["addedByUser"] as! String
+        timeStamp = snapshotValue["timeStamp"] as! String
         ref = snapshot.ref
     }
-    
+
     func toAnyObject() -> Any {
         return [
             "message": message,
             "addedByUser": addedByUser,
-            "name": name
+            "timeStamp": timeStamp
         ]
     }
     

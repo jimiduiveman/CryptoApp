@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseAuth
+import Firebase
 
 class LoginViewController: UIViewController {
     
@@ -50,12 +50,15 @@ class LoginViewController: UIViewController {
         let alert = UIAlertController(title: "Register", message: "Register", preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { action in
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
+            let usernameField = alert.textFields![0]
+            let emailField = alert.textFields![1]
+            let passwordField = alert.textFields![2]
             
             Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
                 if error == nil {
                     Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!, password: self.textFieldLoginPassword.text!)
+                    let userRef = Database.database().reference().child("users").child(user!.uid)
+                    userRef.setValue(["username": usernameField.text!])
                 }
                 else {
                     let createFailure = UIAlertController(title: "Register Failed", message: error?.localizedDescription, preferredStyle: .alert)
@@ -67,6 +70,10 @@ class LoginViewController: UIViewController {
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        
+        alert.addTextField { textUsername in
+            textUsername.placeholder = "Enter your username"
+        }
         
         alert.addTextField { textEmail in
             textEmail.placeholder = "Enter your email"
@@ -85,19 +92,19 @@ class LoginViewController: UIViewController {
     
 }
 
-extension LoginViewController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == textFieldLoginEmail {
-            textFieldLoginPassword.becomeFirstResponder()
-        }
-        if textField == textFieldLoginPassword {
-            textField.resignFirstResponder()
-        }
-        return true
-    }
-    
-}
+//extension LoginViewController: UITextFieldDelegate {
+//
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        if textField == textFieldLoginEmail {
+//            textFieldLoginPassword.becomeFirstResponder()
+//        }
+//        if textField == textFieldLoginPassword {
+//            textField.resignFirstResponder()
+//        }
+//        return true
+//    }
+//
+//}
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {

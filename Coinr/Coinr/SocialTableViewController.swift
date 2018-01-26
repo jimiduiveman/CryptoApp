@@ -15,6 +15,7 @@ class SocialTableViewController: UITableViewController {
     
     var messages: [Message] = []
     var userID = Auth.auth().currentUser?.uid
+    var username = ""
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -25,6 +26,14 @@ class SocialTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getMessages()
+        getUsername()
+        
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+    }
+    
+    func getMessages() {
         ref.observe(.value, with: { snapshot in
             var newMessages: [Message] = []
             
@@ -35,30 +44,32 @@ class SocialTableViewController: UITableViewController {
             self.messages = newMessages
             self.tableView.reloadData()
         })
-        
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
+    }
+    
+    func getUsername() {
+        let userRef = Database.database().reference().child("users").child(self.userID!)
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            self.username = value!["username"] as! String
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
     
     @IBAction func addButtonDidTouch(_ sender: AnyObject) {
-        let alert = UIAlertController(title: "Message", message: "Provide your name and message", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Message", message: "Provide your message:", preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Send", style: .default) { _ in
-            let nameFieldText = alert.textFields![0].text
-            let messageFieldText = alert.textFields![1].text
-            
-            let message = Message(name: nameFieldText!, message: messageFieldText!, addedByUser: self.userID!)
+            let messageFieldText = alert.textFields![0].text
+            let message = Message(message: messageFieldText!, addedByUser: self.username, timeStamp: String(describing: NSDate()) ) 
             let messageRef = self.ref.child(messageFieldText!.lowercased())
             messageRef.setValue(message.toAnyObject())
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .default)
-        
-        alert.addTextField { textName in
-            textName.placeholder = "Enter your name"
-        }
         
         alert.addTextField { textMessage in
             textMessage.placeholder = "Enter your message"
@@ -81,10 +92,20 @@ class SocialTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! SocialTableViewCell
+        let messages = self.messages.sorted(by: {$0.timeStamp > $1.timeStamp})
         let message = messages[indexPath.row]
         
         cell.messageLabel?.text = message.message
-        cell.userLabel?.text = message.name
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
+        let dateFromString: Date? = dateFormatter.date(from: message.timeStamp)
+        
+        let dateFormatterFinal = DateFormatter()
+        dateFormatterFinal.dateFormat = "HH:mm dd-MM-yyyy"
+        
+        cell.userLabel?.text = "\(message.addedByUser) - \(dateFormatterFinal.string(from: dateFromString!))"
         
         return cell
     }

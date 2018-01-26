@@ -37,8 +37,6 @@ class CoinController {
                         let name = eachCoin["name"] as! String
                         let symbol = eachCoin["symbol"] as! String
                         let price = eachCoin["price_usd"] as! String
-                        //let priceDict = "https://min-api.cryptocompare.com/data/price?fsym="+symbol+"&tsyms=USD"
-                        //let price = priceDict
                         let marketcap = eachCoin["market_cap_usd"] as! String
                         var sevenday_change = "0.0"
                         if (eachCoin["percent_change_7d"] as? String) != nil {

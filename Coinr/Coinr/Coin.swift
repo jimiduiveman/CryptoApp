@@ -35,20 +35,20 @@ struct Coin {
     }
     
     let coinsRef = Database.database().reference(withPath: "favorites")
-    func saveToFirebase(userID: String ) {
-        let dict = ["id": self.id,
-                    "name": self.name,
-                    "symbol": self.symbol,
-                    "price": self.price,
-                    "sevenday_change": self.sevenday_change,
-                    "twentyfourhr_change": self.twentyfourhr_change,
-                    "available_supply": self.available_supply,
-                    "marketcap": self.marketcap,
-                    "logo": self.logo
-            ] as [String : Any]
+    func saveToFirebase(symbol: String, userID: String ) {
+//        let dict = ["id": self.id,
+//                    "name": self.name,
+//                    "symbol": self.symbol,
+//                    "price": self.price,
+//                    "sevenday_change": self.sevenday_change,
+//                    "twentyfourhr_change": self.twentyfourhr_change,
+//                    "available_supply": self.available_supply,
+//                    "marketcap": self.marketcap,
+//                    "logo": self.logo
+//            ] as [String : Any]
         
-        let thisCoinsRef = coinsRef.child(userID).child(dict["symbol"] as! String)
-        thisCoinsRef.setValue(dict)
+        let thisCoinsRef = coinsRef.child(userID).child(symbol)
+        thisCoinsRef.setValue(symbol)
     }
     
     func deleteFromFirebase(symbol: String, userID: String) {

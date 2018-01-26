@@ -80,9 +80,9 @@ class DetailViewController: UIViewController, ChartViewDelegate {
     func checkDatabase() {
         favoritesRef.child(userID!).observeSingleEvent(of: .value) { (snap: DataSnapshot) in
             if snap.exists() {
-                if let dict = snap.value as? [String: NSDictionary] {
-                    for item in dict {
-                        if (item.value as NSDictionary)["symbol"] as! String == self.detailCoin!.symbol {
+                if let list = snap.value as? NSDictionary {
+                    for item in list {
+                        if item.value as! String == self.detailCoin!.symbol {
                             self.updateButton()
                         }
                     }
@@ -188,10 +188,6 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         
     }
     
-//    func chartValueNothingSelected(_ chartView: ChartViewBase) {
-//        let emptyVals = [Highlight]()
-//        lineChartView.highlightValues(emptyVals)
-//    }
     
     func updateChartWithData() {
         var dataEntries: [ChartDataEntry] = []
@@ -256,7 +252,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         }
         else {
             // Add item to list
-            detailCoin!.saveToFirebase(userID: userID!)
+            detailCoin!.saveToFirebase(symbol: (detailCoin?.symbol)!, userID: userID!)
             updateButton()
         }
     }
@@ -299,6 +295,14 @@ class DetailViewController: UIViewController, ChartViewDelegate {
     
     @IBAction func transactionButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "addTransaction", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addTransaction" {
+            let controller = segue.destination as! MakeTradeViewController
+            let coin = detailCoin
+            controller.tradeCoin = coin
+        }
     }
     
     
