@@ -10,7 +10,7 @@ import Foundation
 import Firebase
 
 
-// Inspiration from Ray Wenderlich
+
 
 struct Message {
     
@@ -28,6 +28,7 @@ struct Message {
         self.ref = nil
     }
     
+    // Inspiration from Ray Wenderlich
     init(snapshot: DataSnapshot) {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]

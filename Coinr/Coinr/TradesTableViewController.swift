@@ -47,7 +47,8 @@ class TradesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TradeTableViewCell", for: indexPath) as! TradeTableViewCell
-        let trade = trades[indexPath.row]
+        let tradesSorted = trades.sorted(by: {$0.timeStamp > $1.timeStamp})
+        let trade = tradesSorted[indexPath.row]
         
         cell.coinSymbol?.text = trade.coinSymbol
         if trade.type.starts(with: "S") {

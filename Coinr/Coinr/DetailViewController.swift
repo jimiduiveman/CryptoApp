@@ -200,24 +200,24 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         let chartDataSet = LineChartDataSet(values: dataEntries, label: "")
         let data = LineChartData()
         data.addDataSet(chartDataSet)
-        self.lineChartView.data = data
+        lineChartView.data = data
         
         
-        self.lineChartView.chartDescription = nil
-        self.lineChartView.lineData!.setDrawValues(false)
+        lineChartView.chartDescription = nil
+        lineChartView.lineData!.setDrawValues(false)
         
-        self.lineChartView.xAxis.drawGridLinesEnabled = false
-        self.lineChartView.xAxis.drawLabelsEnabled = false
-        self.lineChartView.xAxis.drawAxisLineEnabled = false
-        self.lineChartView.xAxis.drawLimitLinesBehindDataEnabled = false
+        lineChartView.xAxis.drawGridLinesEnabled = false
+        lineChartView.xAxis.drawLabelsEnabled = false
+        lineChartView.xAxis.drawAxisLineEnabled = false
+        lineChartView.xAxis.drawLimitLinesBehindDataEnabled = false
         
-        self.lineChartView.leftAxis.drawGridLinesEnabled = false
-        self.lineChartView.leftAxis.drawAxisLineEnabled = false
-        self.lineChartView.leftAxis.drawLabelsEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawAxisLineEnabled = false
+        lineChartView.leftAxis.drawLabelsEnabled = false
         
-        self.lineChartView.rightAxis.drawGridLinesEnabled = false
-        self.lineChartView.rightAxis.drawAxisLineEnabled = false
-        self.lineChartView.rightAxis.drawLabelsEnabled = false
+        lineChartView.rightAxis.drawGridLinesEnabled = false
+        lineChartView.rightAxis.drawAxisLineEnabled = false
+        lineChartView.rightAxis.drawLabelsEnabled = false
         
         
         chartDataSet.colors = [#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 1)]
@@ -232,12 +232,12 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         //chartDataSet.fill = Fill.fillWithColor(#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 0.5))
         chartDataSet.fillAlpha = 1
 
-        self.lineChartView.legend.enabled = false
+        lineChartView.legend.enabled = false
         
-        self.lineChartView.highlightPerDragEnabled = true
-        self.lineChartView.highlightPerTapEnabled = true
-        self.lineChartView.drawMarkers = false
-        self.lineChartView.minOffset = 0
+        lineChartView.highlightPerDragEnabled = true
+        lineChartView.highlightPerTapEnabled = true
+        lineChartView.drawMarkers = false
+        lineChartView.minOffset = 0
         
     }
     

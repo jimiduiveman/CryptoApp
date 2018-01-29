@@ -20,7 +20,6 @@ class SocialTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        navigationItem.rightBarButtonItem?.setTitlePositionAdjustment(.init(horizontal: 10, vertical: 20), for: UIBarMetrics.default)
     }
     
     override func viewDidLoad() {
@@ -29,7 +28,8 @@ class SocialTableViewController: UITableViewController {
         getMessages()
         getUsername()
         
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.rowHeight = 70
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         
     }
     
@@ -41,6 +41,19 @@ class SocialTableViewController: UITableViewController {
                 let message = Message(snapshot: item as! DataSnapshot)
                 newMessages.append(message)
             }
+            
+            //Remove old messages if there are more than 20
+            if newMessages.count > 20 {
+                let sortedMessages = newMessages.sorted(by: {$0.timeStamp > $1.timeStamp})
+                self.ref.child(sortedMessages.last!.key).removeValue(completionBlock: { (error, refer) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Removed: \(sortedMessages.last!.message)")
+                    }
+                })
+            }
+            
             self.messages = newMessages
             self.tableView.reloadData()
         })
@@ -109,21 +122,5 @@ class SocialTableViewController: UITableViewController {
         
         return cell
     }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        return 70
-    }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

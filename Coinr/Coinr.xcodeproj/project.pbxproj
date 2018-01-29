@@ -31,6 +31,7 @@
 		8D410AC8200DFFF20006CE81 /* SocialTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */; };
 		8D410ACA200E28AC0006CE81 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D410AC9200E28AC0006CE81 /* Message.swift */; };
 		8D410ACC200E2C8E0006CE81 /* SocialTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D410ACB200E2C8E0006CE81 /* SocialTableViewCell.swift */; };
+		8DC0545A201BCB0900D22A8B /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC05459201BCB0900D22A8B /* PortfolioTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialTableViewController.swift; sourceTree = "<group>"; };
 		8D410AC9200E28AC0006CE81 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8D410ACB200E2C8E0006CE81 /* SocialTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialTableViewCell.swift; sourceTree = "<group>"; };
+		8DC05459201BCB0900D22A8B /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		CFB3AEF83507FD35245E38B7 /* Pods-CoinrTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoinrTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoinrTests/Pods-CoinrTests.release.xcconfig"; sourceTree = "<group>"; };
 		FF50071A79F4ABB4FA8B4DB3 /* Pods-CoinrUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoinrUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoinrUITests/Pods-CoinrUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,6 +165,7 @@
 			children = (
 				8D1F999D2007A35600883553 /* AppDelegate.swift */,
 				8D1F99A12007A35600883553 /* Main.storyboard */,
+				8DC05459201BCB0900D22A8B /* PortfolioTableViewCell.swift */,
 				8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */,
 				8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */,
 				8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */,
@@ -537,6 +540,7 @@
 				8D031F4E200F9EF9005A3C1B /* MarkerView.swift in Sources */,
 				8D1F99DA2008FB0400883553 /* DetailViewController.swift in Sources */,
 				8D410AC6200CF46B0006CE81 /* User.swift in Sources */,
+				8DC0545A201BCB0900D22A8B /* PortfolioTableViewCell.swift in Sources */,
 				8D031F542014E8E2005A3C1B /* CoinsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

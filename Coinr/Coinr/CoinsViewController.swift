@@ -33,7 +33,6 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        configureSearchController()
         checkDatabase()
         
         tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
@@ -47,13 +46,23 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         configureSearchController()
         
         checkDatabase()
+        
+        //Make “bounce area” of a UITableView black (light gray standard)
+        let bgView = UIView()
+        bgView.backgroundColor = UIColor.black
+        tableSearchResults.backgroundView = bgView
+        
+        //Create "unvisible" rectangle to hide unnessecary lines in table
+        tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
 
+        //Get all coins with their statistics
         CoinController.shared.fetchCoins() { (coins) in
             if let coins = coins {
                 self.updateUI(with: coins)
             }
         }
         
+        //Look if there is a user and get value if there is one
         Auth.auth().addStateDidChangeListener { auth, user in
             guard let user = user else { return }
             self.user = User(authData: user)
