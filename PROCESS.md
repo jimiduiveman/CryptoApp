@@ -49,4 +49,30 @@ Changed the lay-out of the search bar.
 *Week 3 - Tuesday*
 
 Finished the transaction page with live calculations based on user input.
-...
+
+*Week 3 - Wednesday*
+
+Everything is working properly, except for the "portfolio" page.
+Messages are sorted based on the timestamp, most recent at top.
+Message is created when users made a trade.
+
+*Week 3 - Thursday*
+
+Started with the "portfolio" page, some difficulties with the calculations behind the scene.
+
+*Week 3 - Friday*
+
+Fixed the issues with calculations based on trades.
+Changed the lay-out of some tableview cells just a bit for better UI.
+
+*Week 3 - Saturday*
+
+Finished the "portfolio" page.
+Implemented a tableview with current holdings.
+Implemented a pie chart with percentages of your holdings.
+
+*Week 4 - Monday*
+
+Made some improvements regarding messages, when there are more than 25 messages, the last one will be removed from Firebase and tableview.
+Cleaned up the repository.
+Fixed some comments in code.
