@@ -164,26 +164,13 @@
 			isa = PBXGroup;
 			children = (
 				8D1F999D2007A35600883553 /* AppDelegate.swift */,
-				8D1F99A12007A35600883553 /* Main.storyboard */,
-				8DC05459201BCB0900D22A8B /* PortfolioTableViewCell.swift */,
-				8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */,
-				8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */,
-				8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */,
-				8D031F5920176A2D005A3C1B /* Trade.swift */,
-				8D031F532014E8E2005A3C1B /* CoinsViewController.swift */,
+				8DC0545B201F6E9100D22A8B /* Storyboards */,
+				8DC0545C201F6EA900D22A8B /* TableViewCells */,
+				8DC0545D201F6EC300D22A8B /* ViewControllers */,
+				8DC0545E201F6EF100D22A8B /* Models */,
 				8D031F4D200F9EF9005A3C1B /* MarkerView.swift */,
-				8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */,
-				8D410AC9200E28AC0006CE81 /* Message.swift */,
-				8D1F99DB20091A6100883553 /* CoinTableViewCell.swift */,
-				8D410ACB200E2C8E0006CE81 /* SocialTableViewCell.swift */,
-				8D1F99D92008FB0400883553 /* DetailViewController.swift */,
-				8D410AC5200CF46B0006CE81 /* User.swift */,
 				8D1F99CF200808F900883553 /* CoinController.swift */,
-				8D1F99D72008276600883553 /* PortfolioViewController.swift */,
-				8D1F99D12008098500883553 /* Coin.swift */,
-				8D1F99CB2007F0AE00883553 /* LoginViewController.swift */,
 				8D1F99A42007A35600883553 /* Assets.xcassets */,
-				8D1F99A62007A35600883553 /* LaunchScreen.storyboard */,
 				8D1F99CD2007F2E900883553 /* GoogleService-Info.plist */,
 				8D1F99A92007A35700883553 /* Info.plist */,
 			);
@@ -206,6 +193,51 @@
 				8D1F99BF2007A35700883553 /* Info.plist */,
 			);
 			path = CoinrUITests;
+			sourceTree = "<group>";
+		};
+		8DC0545B201F6E9100D22A8B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8D1F99A12007A35600883553 /* Main.storyboard */,
+				8D1F99A62007A35600883553 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		8DC0545C201F6EA900D22A8B /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				8DC05459201BCB0900D22A8B /* PortfolioTableViewCell.swift */,
+				8D031F5D201787A2005A3C1B /* TradeTableViewCell.swift */,
+				8D1F99DB20091A6100883553 /* CoinTableViewCell.swift */,
+				8D410ACB200E2C8E0006CE81 /* SocialTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		8DC0545D201F6EC300D22A8B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8D031F572015EDA4005A3C1B /* MakeTradeViewController.swift */,
+				8D031F5B2017853A005A3C1B /* TradesTableViewController.swift */,
+				8D031F532014E8E2005A3C1B /* CoinsViewController.swift */,
+				8D410AC7200DFFF20006CE81 /* SocialTableViewController.swift */,
+				8D1F99D92008FB0400883553 /* DetailViewController.swift */,
+				8D1F99D72008276600883553 /* PortfolioViewController.swift */,
+				8D1F99CB2007F0AE00883553 /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8DC0545E201F6EF100D22A8B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8D031F5920176A2D005A3C1B /* Trade.swift */,
+				8D410AC9200E28AC0006CE81 /* Message.swift */,
+				8D410AC5200CF46B0006CE81 /* User.swift */,
+				8D1F99D12008098500883553 /* Coin.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		B0A67CF64A6736FB5D072397 /* Pods */ = {

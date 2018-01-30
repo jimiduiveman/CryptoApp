@@ -26,37 +26,50 @@ class TradesTableViewController: UITableViewController {
         
     }
     
+    //Get all the trades of the current user
     func getTrades() {
         ref.child(userID!).observe(.value, with: { snapshot in
             var newTrades: [Trade] = []
             
+            //Get them one by one and create objects which will be stored in an array
             for item in snapshot.children {
                 let trade = Trade(snapshot: item as! DataSnapshot)
                 newTrades.append(trade)
             }
+            
+            //Assign trades to array and reload tableview
             self.trades = newTrades
             self.tableView.reloadData()
         })
     }
     
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //Determine number of rows
         return trades.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TradeTableViewCell", for: indexPath) as! TradeTableViewCell
+        
+        //Sort trades, most recent on top
         let tradesSorted = trades.sorted(by: {$0.timeStamp > $1.timeStamp})
         let trade = tradesSorted[indexPath.row]
         
+        //Assign values to labels
         cell.coinSymbol?.text = trade.coinSymbol
+        
+        //Change color of label based on trade type
         if trade.type.starts(with: "S") {
             cell.tradeType!.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         } else {
             cell.tradeType!.textColor = #colorLiteral(red: 0, green: 0.8188306689, blue: 0.2586435676, alpha: 1)
         }
         cell.tradeType?.text = trade.type
+        
+        //Make sure the format of the label is correct
         cell.amountBought?.text = trade.amountBought
         if trade.coinPriceBought.starts(with: "0") {
             cell.priceCoin?.text = "$\(trade.coinPriceBought)"
@@ -65,6 +78,7 @@ class TradesTableViewController: UITableViewController {
             let priceCoin = (trade.coinPriceBought as NSString).doubleValue
             cell.priceCoin?.text = "\(priceCoin.formattedWithSeparator)"
         }
+        
         let totalPrice = (trade.totalPrice as NSString).doubleValue
         cell.totalPriceTrade?.text = totalPrice.formattedWithSeparator
         
