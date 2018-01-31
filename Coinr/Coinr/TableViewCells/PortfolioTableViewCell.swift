@@ -10,6 +10,7 @@ import UIKit
 
 class PortfolioTableViewCell: UITableViewCell {
 
+    // Outlets
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var totalPriceLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!

@@ -2,6 +2,8 @@
 //  CoinsViewController.swift
 //  Coinr
 //
+//  Description: Overview of all coins, with their prices and 24h change
+//
 //  Created by Jimi Duiveman on 21-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -11,35 +13,34 @@ import Firebase
 
 class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
 
-    
+    // Variables
     var coins = [Coin]()
     var filteredCoins = [Coin]()
     var favorites = [Coin]()
-    
     var shouldShowSearchResults = false
-    
-    let favoritesRef = Database.database().reference(withPath: "favorites")
-    
     var userID = Auth.auth().currentUser?.uid
-    let usersRef = Database.database().reference(withPath: "online")
     var user: User!
+    var searchController: UISearchController!
 
-    @IBOutlet weak var tableSearchResults: UITableView!
+    // Constants
+    let usersRef = Database.database().reference(withPath: "online")
+    let favoritesRef = Database.database().reference(withPath: "favorites")
+    let bgView = UIView()
     
+    
+    // Outlets
+    @IBOutlet weak var tableSearchResults: UITableView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    var searchController: UISearchController!
+    // Actions
+    @IBAction func segmentChanged(_ sender: Any) {
+        checkDatabase()
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        checkDatabase()
-        
-        tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         tableSearchResults.delegate = self
         tableSearchResults.dataSource = self
         
@@ -48,13 +49,12 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         checkDatabase()
         
         //Make “bounce area” of a UITableView black (light gray standard)
-        let bgView = UIView()
         bgView.backgroundColor = UIColor.black
         tableSearchResults.backgroundView = bgView
         
         //Create "unvisible" rectangle to hide unnessecary lines in table
         tableSearchResults.tableFooterView = UIView(frame: CGRect.zero)
-
+        
         //Get all coins with their statistics
         CoinController.shared.fetchCoins() { (coins) in
             if let coins = coins {
@@ -73,6 +73,7 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    // Update the UI with data
     func updateUI(with coins: [Coin]) {
         DispatchQueue.main.async {
             self.coins = coins
@@ -80,6 +81,7 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    // Get favorites from Firebase
     func checkDatabase() {
         var newFavorites: [Coin] = []
         favoritesRef.child(userID!).observeSingleEvent(of: .value) { (snap: DataSnapshot) in
@@ -99,11 +101,11 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         }
-        self.tableSearchResults.reloadData()
     }
     
+    // Configuration of  search controller
     func configureSearchController() {
-        // Initialize and perform a minimum configuration to the search controller.
+        
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -116,20 +118,15 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchController.searchBar.searchBarStyle = UISearchBarStyle.prominent
         
         let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        
         textFieldInsideSearchBar?.textColor = .white
         textFieldInsideSearchBar?.backgroundColor = .black
         
         // Place the search bar view to the tableview headerview.
         tableSearchResults.tableHeaderView = searchController.searchBar
     }
+
     
-    
-    @IBAction func segmentChanged(_ sender: Any) {
-        checkDatabase()
-    }
-    
-    
+    // Tableview configuration
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         var returnValue = 0
@@ -161,16 +158,18 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return returnValue
     }
     
-    
+    // Ckeck if search controller is filtering
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
     
+    // Ckeck if search controller is empty
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    
+    // Update tableview with results of the search query
     func updateSearchResults(for searchController: UISearchController) {
         
         switch(segmentedControl.selectedSegmentIndex) {
@@ -286,12 +285,14 @@ class CoinsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return 1
     }
     
+    // Head to detail page of coin
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetail" {
             if let indexPath = tableSearchResults.indexPathForSelectedRow {
                 let controller = segue.destination as! DetailViewController
                 let coin: Coin
                 
+                // Determine which coin needs to be given to the detail page
                 switch(segmentedControl.selectedSegmentIndex) {
                 case 0:
                     if isFiltering() {

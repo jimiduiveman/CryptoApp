@@ -2,6 +2,8 @@
 //  DetailViewController.swift
 //  Coinr
 //
+//  Description: Shows details about a coin, including price history and some other statistics
+//
 //  Created by Jimi Duiveman on 12-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -13,29 +15,27 @@ import Firebase
 class DetailViewController: UIViewController, ChartViewDelegate {
 
     // Outlets
-    
     @IBOutlet weak var sevenday_change: UILabel!
     @IBOutlet weak var twentyfourhour_change: UILabel!
     @IBOutlet weak var marketcap: UILabel!
     @IBOutlet weak var available_supply: UILabel!
-    
     @IBOutlet weak var lineChartView: LineChartView!
     @IBOutlet weak var transactionButton: UIButton!
     @IBOutlet weak var markerView: MarkerView!
     @IBOutlet weak var segmentDetailPage: UISegmentedControl!
     
-    // Variables and constants
-    
+    // Variables
     var inFavorites = false
     var userID = Auth.auth().currentUser?.uid
-    let favoritesRef = Database.database().reference(withPath: "favorites")
     var coinHistory: [[Double]] = []
-    
     var detailCoin: Coin? {
         didSet {
             configureView()
         }
     }
+    
+    // Constants
+    let favoritesRef = Database.database().reference(withPath: "favorites")
     
     
     // Functions
@@ -45,6 +45,63 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.lineChartView.noDataText = ""
     }
+    
+    // Actions
+    @IBAction func favoriteButtonTapped(_ sender: Any) {
+        if inFavorites {
+            // Remove item from list
+            detailCoin!.deleteFromFirebase(symbol: (detailCoin?.symbol)!, userID: userID!)
+            updateButton()
+        }
+        else {
+            // Add item to list
+            detailCoin!.saveToFirebase(symbol: (detailCoin?.symbol)!, userID: userID!)
+            updateButton()
+        }
+    }
+    
+    // Determine which price history interval has to be shown
+    @IBAction func segmentedTouched(_ sender: UISegmentedControl) {
+        var interval = ""
+        var amount = ""
+        if segmentDetailPage.selectedSegmentIndex == 0 {
+            interval = "histominute"
+            amount = "120"
+        }
+        if segmentDetailPage.selectedSegmentIndex == 1 {
+            interval = "histominute"
+            amount = "1000"
+        }
+        if segmentDetailPage.selectedSegmentIndex == 2 {
+            interval = "histohour"
+            amount = "60"
+        }
+        if segmentDetailPage.selectedSegmentIndex == 3 {
+            interval = "histohour"
+            amount = "260"
+        }
+        if segmentDetailPage.selectedSegmentIndex == 4 {
+            interval = "histoday"
+            amount = "65"
+        }
+        if segmentDetailPage.selectedSegmentIndex == 5 {
+            interval = "histoday"
+            amount = "125"
+        }
+        
+        // Get price history for selected interval
+        CoinController.shared.fetchCoinHistory(interval: interval, amount: amount ,coinSymbol: (detailCoin?.symbol)!) { (coinhistory) in
+            if let coinhistory = coinhistory {
+                self.updateUI(with: coinhistory)
+            }
+        }
+        
+    }
+    
+    @IBAction func transactionButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "addTransaction", sender: nil)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +119,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
 
     }
     
+    // Functions
     func updateUI(with coinhistory: [[Double]]) {
         DispatchQueue.main.async {
             self.coinHistory = coinhistory
@@ -77,6 +135,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
+    // Check if coin in favorites to be able to adapt favorite logo
     func checkDatabase() {
         favoritesRef.child(userID!).observeSingleEvent(of: .value) { (snap: DataSnapshot) in
             if snap.exists() {
@@ -91,7 +150,9 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
+    // Adapt logo based on favorites
     func updateButton() {
+        
         // If coin already in favorites, button will (display) remove
         if inFavorites {
             navigationItem.rightBarButtonItem?.image = UIImage(named: "icons8-star-50")
@@ -104,7 +165,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         }
     }
     
-    
+    // Configure the view on the detail page
     func configureView() {
         if let detailCoin = detailCoin {
             
@@ -148,6 +209,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
     }
     
     // Inspiration : http://stackoverflow.com/questions/12914004/uinavigationbar-titleview-with-subtitle
+    // Set a title with subtitle in the navigation bar
     func setTitle(title:String, subtitle:String) -> UIView {
         let titleLabel = UILabel(frame: CGRect(x:0, y:-2, width: view.frame.width - 60, height: 20))
         titleLabel.backgroundColor = UIColor.clear
@@ -174,12 +236,16 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         return titleView
     }
     
-    
+    // Get data point of finger touching chart
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        
+        // Price for touched data point
         markerView.priceLabel.text = "\(entry.y.formattedWithSeparator)"
         let date = Date(timeIntervalSince1970: entry.x)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM yyyy HH:mm"
+        
+        // Date for touched data point
         markerView.dateLabel.text = "\(dateFormatter.string(from: date))"
         
         let graphPoint = lineChartView.getMarkerPosition(highlight: highlight)
@@ -188,7 +254,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         
     }
     
-    
+    // Get data for the chart and show it
     func updateChartWithData() {
         var dataEntries: [ChartDataEntry] = []
         
@@ -225,77 +291,23 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         chartDataSet.drawFilledEnabled = true
         chartDataSet.highlightColor = UIColor.white
         
-        let gradientColors = [#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 1).cgColor, UIColor.clear.cgColor] as CFArray // Colors of the gradient
-        let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
+        // Colors of the gradient, blue and clear
+        let gradientColors = [#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 1).cgColor, UIColor.clear.cgColor] as CFArray
+        
+        // Direction of the gradient
+        let colorLocations:[CGFloat] = [1.0, 0.0]
         let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
         chartDataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90.0)
-        //chartDataSet.fill = Fill.fillWithColor(#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 0.5))
         chartDataSet.fillAlpha = 1
 
         lineChartView.legend.enabled = false
-        
         lineChartView.highlightPerDragEnabled = true
         lineChartView.highlightPerTapEnabled = true
         lineChartView.drawMarkers = false
         lineChartView.minOffset = 0
         
     }
-    
-    
-    // Actions (buttons tapped)
-    
-    @IBAction func favoriteButtonTapped(_ sender: Any) {
-        if inFavorites {
-            // Remove item from list
-            detailCoin!.deleteFromFirebase(symbol: (detailCoin?.symbol)!, userID: userID!)
-            updateButton()
-        }
-        else {
-            // Add item to list
-            detailCoin!.saveToFirebase(symbol: (detailCoin?.symbol)!, userID: userID!)
-            updateButton()
-        }
-    }
-    
-    @IBAction func segmentedTouched(_ sender: UISegmentedControl) {
-        var interval = ""
-        var amount = ""
-        if segmentDetailPage.selectedSegmentIndex == 0 {
-            interval = "histominute"
-            amount = "60"
-        }
-        if segmentDetailPage.selectedSegmentIndex == 1 {
-            interval = "histominute"
-            amount = "1000"
-        }
-        if segmentDetailPage.selectedSegmentIndex == 2 {
-            interval = "histohour"
-            amount = "60"
-        }
-        if segmentDetailPage.selectedSegmentIndex == 3 {
-            interval = "histohour"
-            amount = "260"
-        }
-        if segmentDetailPage.selectedSegmentIndex == 4 {
-            interval = "histoday"
-            amount = "65"
-        }
-        if segmentDetailPage.selectedSegmentIndex == 5 {
-            interval = "histoday"
-            amount = "125"
-        }
-        
-        CoinController.shared.fetchCoinHistory(interval: interval, amount: amount ,coinSymbol: (detailCoin?.symbol)!) { (coinhistory) in
-            if let coinhistory = coinhistory {
-                self.updateUI(with: coinhistory)
-            }
-        }
-        
-    }
-    
-    @IBAction func transactionButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "addTransaction", sender: nil)
-    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addTransaction" {
@@ -310,6 +322,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
 
 // Extensions
 
+// Get format of dollar currency
 extension Formatter {
     static let withSeparator: NumberFormatter = {
         let formatter = NumberFormatter()

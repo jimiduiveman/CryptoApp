@@ -2,6 +2,8 @@
 //  SocialTableViewController.swift
 //  Coinr
 //
+//  Description: Overview of messages of other users and their transactions.
+//
 //  Created by Jimi Duiveman on 16-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -11,28 +13,50 @@ import Firebase
 
 class SocialTableViewController: UITableViewController {
 
+    // Constants
     let ref = Database.database().reference(withPath: "messages")
     
+    // Variables
     var messages: [Message] = []
     var userID = Auth.auth().currentUser?.uid
     var username = ""
     
+    // Actions
+    @IBAction func addButtonDidTouch(_ sender: AnyObject) {
+        let alert = UIAlertController(title: "Message", message: "Provide your message:", preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Send", style: .default) { _ in
+            let messageFieldText = alert.textFields![0].text
+            let message = Message(message: messageFieldText!, addedByUser: self.username, timeStamp: String(describing: NSDate()) )
+            let messageRef = self.ref.child(messageFieldText!.lowercased())
+            messageRef.setValue(message.toAnyObject())
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        
+        alert.addTextField { textMessage in
+            textMessage.placeholder = "Enter your message"
+        }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
         getMessages()
         getUsername()
         
         tableView.rowHeight = 70
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
     }
     
+    // Get all messages from Firebase
     func getMessages() {
         ref.observe(.value, with: { snapshot in
             var newMessages: [Message] = []
@@ -71,46 +95,23 @@ class SocialTableViewController: UITableViewController {
     }
     
     
-    @IBAction func addButtonDidTouch(_ sender: AnyObject) {
-        let alert = UIAlertController(title: "Message", message: "Provide your message:", preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Send", style: .default) { _ in
-            let messageFieldText = alert.textFields![0].text
-            let message = Message(message: messageFieldText!, addedByUser: self.username, timeStamp: String(describing: NSDate()) ) 
-            let messageRef = self.ref.child(messageFieldText!.lowercased())
-            messageRef.setValue(message.toAnyObject())
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .default)
-        
-        alert.addTextField { textMessage in
-            textMessage.placeholder = "Enter your message"
-        }
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return messages.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! SocialTableViewCell
+        
+        // Sort messages, most recent on top
         let messages = self.messages.sorted(by: {$0.timeStamp > $1.timeStamp})
         let message = messages[indexPath.row]
         
         cell.messageLabel?.text = message.message
         
-        
+        // Get proper date from timestamp
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
         let dateFromString: Date? = dateFormatter.date(from: message.timeStamp)

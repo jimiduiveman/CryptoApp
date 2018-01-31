@@ -2,6 +2,8 @@
 //  TradesTableViewController.swift
 //  Coinr
 //
+//  Description: Overview of all your personal trades
+//
 //  Created by Jimi Duiveman on 23-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -11,33 +13,36 @@ import Firebase
 
 class TradesTableViewController: UITableViewController {
 
-    
+    // Constants
     let ref = Database.database().reference(withPath: "trades")
     
+    
+    // Variables
     var trades: [Trade] = []
     var userID = Auth.auth().currentUser?.uid
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         getTrades()
         
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
     }
     
-    //Get all the trades of the current user
+    
+    // Get all the trades of the current user
     func getTrades() {
         ref.child(userID!).observe(.value, with: { snapshot in
             var newTrades: [Trade] = []
             
-            //Get them one by one and create objects which will be stored in an array
+            // Get them one by one and create objects which will be stored in an array
             for item in snapshot.children {
                 let trade = Trade(snapshot: item as! DataSnapshot)
                 newTrades.append(trade)
             }
             
-            //Assign trades to array and reload tableview
+            // Assign trades to array and reload tableview
             self.trades = newTrades
             self.tableView.reloadData()
         })
@@ -47,21 +52,21 @@ class TradesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //Determine number of rows
+        // Determine number of rows
         return trades.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TradeTableViewCell", for: indexPath) as! TradeTableViewCell
         
-        //Sort trades, most recent on top
+        // Sort trades, most recent on top
         let tradesSorted = trades.sorted(by: {$0.timeStamp > $1.timeStamp})
         let trade = tradesSorted[indexPath.row]
         
-        //Assign values to labels
+        // Assign values to labels
         cell.coinSymbol?.text = trade.coinSymbol
         
-        //Change color of label based on trade type
+        // Change color of label based on trade type
         if trade.type.starts(with: "S") {
             cell.tradeType!.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         } else {
@@ -69,7 +74,7 @@ class TradesTableViewController: UITableViewController {
         }
         cell.tradeType?.text = trade.type
         
-        //Make sure the format of the label is correct
+        // Make sure the format of the label is correct
         cell.amountBought?.text = trade.amountBought
         if trade.coinPriceBought.starts(with: "0") {
             cell.priceCoin?.text = "$\(trade.coinPriceBought)"

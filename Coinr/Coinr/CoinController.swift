@@ -2,6 +2,8 @@
 //  CoinController.swift
 //  Coinr
 //
+//  Description: Used for loading data from API
+//
 //  Created by Jimi Duiveman on 11-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -11,8 +13,13 @@ import UIKit
 
 class CoinController {
 
+    // Static constant
     static let shared = CoinController()
+    
+    // Variables
+    var favoriteCoins = [Coin]()
 
+    // Get data of coins
     func fetchCoins(completion: @escaping ([Coin]?) -> Void) {
         var coins = [Coin]()
         
@@ -61,7 +68,7 @@ class CoinController {
         task.resume()
     }
     
-    
+    // Get image of coin
     func fetchImage(url: URL, completion: @escaping (UIImage?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data,
@@ -74,6 +81,8 @@ class CoinController {
         task.resume()
     }
     
+    
+    // Get price history of coin for the graph
     func fetchCoinHistory(interval: String, amount: String, coinSymbol: String, completion: @escaping ([[Double]]?) -> Void) {
         var history: [[Double]] = []
         
@@ -109,7 +118,5 @@ class CoinController {
         }
         task.resume()
     }
-    
-    var favoriteCoins = [Coin]()
  
 }

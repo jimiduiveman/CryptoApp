@@ -10,6 +10,7 @@ import UIKit
 
 class TradeTableViewCell: UITableViewCell {
 
+    // Outlets
     @IBOutlet weak var coinSymbol: UILabel!
     @IBOutlet weak var tradeType: UILabel!
     @IBOutlet weak var amountBought: UILabel!

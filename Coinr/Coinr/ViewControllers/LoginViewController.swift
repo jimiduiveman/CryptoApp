@@ -2,6 +2,8 @@
 //  LoginViewController.swift
 //  Coinr
 //
+//  Description: First screen where users can register or login
+//
 //  Created by Jimi Duiveman on 11-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -11,8 +13,11 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
+    // Constants
     let loginToApp = "loginToApp"
     
+    
+    // Outlets
     @IBOutlet weak var textFieldLoginEmail: UITextField!
     @IBOutlet weak var textFieldLoginPassword: UITextField!
     
@@ -25,16 +30,15 @@ class LoginViewController: UIViewController {
                 self.performSegue(withIdentifier: self.loginToApp, sender: nil)
             }
         }
+        
         self.hideKeyboardWhenTappedAround()
         
-        textFieldLoginEmail.attributedPlaceholder = NSAttributedString(string: "username",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
-        textFieldLoginPassword.attributedPlaceholder = NSAttributedString(string: "password",
-                                                                       attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        textFieldLoginEmail.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        textFieldLoginPassword.attributedPlaceholder = NSAttributedString(string: "password", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         
     }
     
-    
+    // Actions
     @IBAction func loginTapped(_ sender: Any) {
         Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!, password: self.textFieldLoginPassword.text!) { user, error in
             if error != nil {
@@ -46,6 +50,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // Popup when user wants to register
     @IBAction func signupTapped(_ sender: Any) {
         let alert = UIAlertController(title: "Register", message: "Register", preferredStyle: .alert)
         
@@ -54,6 +59,7 @@ class LoginViewController: UIViewController {
             let emailField = alert.textFields![1]
             let passwordField = alert.textFields![2]
             
+            // Create a new user and login
             Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
                 if error == nil {
                     Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!, password: self.textFieldLoginPassword.text!)
@@ -91,20 +97,6 @@ class LoginViewController: UIViewController {
     }
     
 }
-
-//extension LoginViewController: UITextFieldDelegate {
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if textField == textFieldLoginEmail {
-//            textFieldLoginPassword.becomeFirstResponder()
-//        }
-//        if textField == textFieldLoginPassword {
-//            textField.resignFirstResponder()
-//        }
-//        return true
-//    }
-//
-//}
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {

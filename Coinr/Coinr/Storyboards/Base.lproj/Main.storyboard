@@ -242,7 +242,7 @@
                                 <rect key="frame" x="-1" y="290" width="377" height="29"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
-                                    <segment title="1H"/>
+                                    <segment title="3H"/>
                                     <segment title="1D"/>
                                     <segment title="1W"/>
                                     <segment title="1M"/>

@@ -2,6 +2,8 @@
 //  PortfolioViewController.swift
 //  Coinr
 //
+//  Description: Overview of all your holdings, including total value and change.
+//
 //  Created by Jimi Duiveman on 12-01-18.
 //  Copyright © 2018 Jimi Duiveman. All rights reserved.
 //
@@ -12,33 +14,36 @@ import Charts
 
 class PortfolioViewController: UIViewController, UITableViewDataSource {
    
+    // Constants
     let ref = Database.database().reference(withPath: "trades")
     
+    // Variables
     var userID = Auth.auth().currentUser?.uid
     var coins: [Coin] = []
     var portFolioDict: [String: NSDictionary] = [:]
     var ownedCoins: [Coin] = []
     
+    
+    // Outlets
     @IBOutlet weak var totalValue: UILabel!
     @IBOutlet weak var totalProfit: UILabel!
-    
     @IBOutlet weak var pieChartView: PieChartView!
-    
     @IBOutlet weak var portfolioTableView: UITableView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        CoinController.shared.fetchCoins() { (coins) in
-            if let coins = coins {
-                self.updateUI(with: coins)
+    // Actions
+    @IBAction func signoutButtonTapped(_ sender: Any) {
+        if Auth.auth().currentUser != nil {
+            // there is a user signed in
+            do {
+                try? Auth.auth().signOut()
+                
+                if Auth.auth().currentUser == nil {
+                    dismiss(animated: true, completion: nil)
+                }
             }
         }
-        
-        portfolioTableView.dataSource = self
-        portfolioTableView.rowHeight = 60
-        portfolioTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -55,7 +60,7 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         
     }
 
-    
+    // Get data of coins and data of all personal trades
     func updateUI(with coins: [Coin]) {
         DispatchQueue.main.async {
             self.coins = coins
@@ -64,7 +69,7 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
     }
 
 
-    
+    // Get all personal trades from Firebase
     func getTrades() {
         ref.child(userID!).observe(.value, with: { snapshot in
             var newTrades: [Trade] = []
@@ -77,6 +82,55 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         })
     }
     
+    // Create a dict with buyprice, amount and tradeprofit per coin
+    func makePortfolioDict(trades: [Trade]) {
+        self.portFolioDict = [:]
+        for trade in trades {
+            var newTotalPrice: Double = 0.0
+            var newTotalAmount: Double = 0.0
+            
+            if self.portFolioDict["\(trade.coinSymbol)"] == nil {
+                
+                if trade.type == "Buy" {
+                    
+                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": Double(trade.totalPrice)!, "amount": Double(trade.amountBought)!, "tradeProfit": 0.0 ]
+                }
+                else {
+                    
+                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": 0.0, "amount": 0, "tradeProfit": (Double(("-\(trade.totalPrice)" as NSString).doubleValue)) ]
+                }
+                
+            }
+            else {
+                
+                if trade.type == "Buy" {
+                    
+                    newTotalPrice = ( (self.portFolioDict[trade.coinSymbol]!["totalPrice"]!) as! Double) + Double(trade.totalPrice)!
+                    newTotalAmount = ( (self.portFolioDict[trade.coinSymbol]!["amount"]!) as! Double) + Double(trade.amountBought)!
+                    
+                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": newTotalPrice, "amount": newTotalAmount, "tradeProfit": (Double(("-\(trade.totalPrice)" as NSString).doubleValue))]
+                    
+                }
+                else {
+                    
+                    newTotalPrice = ((self.portFolioDict[trade.coinSymbol]!["totalPrice"]!) as! Double)
+                    newTotalAmount = ((self.portFolioDict[trade.coinSymbol]!["amount"]!) as! Double) - Double(trade.amountBought)!
+                    
+                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": newTotalPrice, "amount": newTotalAmount, "tradeProfit": ((portFolioDict[trade.coinSymbol]!["amount"]!) as! Double)+(Double(("\(trade.totalPrice)" as NSString).doubleValue)) ]
+                    
+                }
+                
+            }
+        }
+        getPortfolioStats(portfolio: self.portFolioDict)
+        updateChartData(portfolio: self.portFolioDict)
+        getOwnedCoins()
+        portfolioTableView.reloadData()
+        
+    }
+    
+    
+    // Use the calculated portfolio to show statistics on page
     func getPortfolioStats(portfolio: [String: NSDictionary]) {
         
         var totalBuyPrice = 0.0
@@ -102,52 +156,8 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         totalProfit.text = profit
     }
     
-    func makePortfolioDict(trades: [Trade]) {
-        self.portFolioDict = [:]
-        for trade in trades {
-            var newTotalPrice: Double = 0.0
-            var newTotalAmount: Double = 0.0
-            
-            if self.portFolioDict["\(trade.coinSymbol)"] == nil {
-                
-                if trade.type == "Buy" {
-                    
-                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": Double(trade.totalPrice)!, "amount": Double(trade.amountBought)!, "tradeProfit": 0.0 ]
-                }
-                else {
-
-                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": 0.0, "amount": 0, "tradeProfit": (Double(("-\(trade.totalPrice)" as NSString).doubleValue)) ]
-                }
-            
-            }
-            else {
-                
-                if trade.type == "Buy" {
-                    
-                    newTotalPrice = ( (self.portFolioDict[trade.coinSymbol]!["totalPrice"]!) as! Double) + Double(trade.totalPrice)!
-                    newTotalAmount = ( (self.portFolioDict[trade.coinSymbol]!["amount"]!) as! Double) + Double(trade.amountBought)!
-                    
-                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": newTotalPrice, "amount": newTotalAmount, "tradeProfit": (Double(("-\(trade.totalPrice)" as NSString).doubleValue))]
-                    
-                }
-                else {
-                    
-                    newTotalPrice = ((self.portFolioDict[trade.coinSymbol]!["totalPrice"]!) as! Double)
-                    newTotalAmount = ((self.portFolioDict[trade.coinSymbol]!["amount"]!) as! Double) - Double(trade.amountBought)!
-                    
-                    self.portFolioDict["\(trade.coinSymbol)"] = ["totalPrice": newTotalPrice, "amount": newTotalAmount, "tradeProfit": ((portFolioDict[trade.coinSymbol]!["amount"]!) as! Double)+(Double(("\(trade.totalPrice)" as NSString).doubleValue)) ]
-                    
-                }
-            
-            }
-        }
-        getPortfolioStats(portfolio: self.portFolioDict)
-        updateChartData(portfolio: self.portFolioDict)
-        getOwnedCoins()
-        portfolioTableView.reloadData()
-        
-    }
     
+    // Get owned coins to show in tableview
     func getOwnedCoins() {
         self.ownedCoins = []
         for item in self.portFolioDict {
@@ -159,10 +169,12 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    // Update the chart with data of personal portfolio
     func updateChartData(portfolio: [String: NSDictionary])  {
         var allCoins = [String]()
         var allValues = [Double]()
         
+        // Create data suitable for piechart
         for item in portfolio {
             if (portfolio[item.key]!["amount"]! as! Double) > 0.0 {
                 allCoins.append(item.key)
@@ -176,6 +188,7 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         
         }
         
+        // Create data suitable for piechart
         var entries = [PieChartDataEntry]()
         for (index, value) in allValues.enumerated() {
             let entry = PieChartDataEntry()
@@ -209,9 +222,8 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         pieChartView.holeColor = UIColor.black
         pieChartView.transparentCircleRadiusPercent = 0.0
         pieChartView.usePercentValuesEnabled = true
-        //pieChartView.legend.textColor = UIColor.white
-        //pieChartView.legend.horizontalAlignment = .center
         
+        // Get percentage behind numbers in piechart
         let formatter = NumberFormatter()
         formatter.numberStyle = .percent
         formatter.maximumFractionDigits = 1
@@ -220,22 +232,7 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         data.setValueFormatter(DefaultValueFormatter(formatter: formatter))
     }
     
-    
-    
-    
-    
-    @IBAction func signoutButtonTapped(_ sender: Any) {
-        if Auth.auth().currentUser != nil {
-            // there is a user signed in
-            do {
-                try? Auth.auth().signOut()
-                
-                if Auth.auth().currentUser == nil {
-                    dismiss(animated: true, completion: nil)
-                }
-            }
-        }
-    }
+
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
