@@ -37,3 +37,4 @@ In addition to that you can to stay up to date with regards to activity of your 
 **License:** Licensed under the Apache License, Version 2.0 (the "License")
 
 
+**Copyright 2018 Jimi Duiveman**
