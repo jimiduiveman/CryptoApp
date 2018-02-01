@@ -98,6 +98,20 @@ When users put in the price and the amount, I wanted to calculate the total orde
 There also is a difference between a "," and "." when calculating.\
 These two constraints made it difficult to implement the feature.\
 
+#### User Experience
+In general, I've made a lot of changes regarding the UI.\
+My goal was to create a simple but elegant application.\
+When creating and using the app, you'll notice a lot of things where of you think "mwahhh".\
+These things need to change, it must be perfect!
+
 ## Decisions
+
+All changes made during the development are based on thoughtful decisions.\
+Changing from a light theme to a dark theme, was a great decision.\
+Not only because the overall design, but I discovered that white text on a black background is easier to the eyes.\
+Especially when watching it at night and the marktet of cryptocurrencies goes on al night.\
+Furthermore, I think the decision to use a simple design was a good one.\
+All the data and different kinds of data are already complicated enough, so the design must be simple.\
+This makes it an app that is great to use!
 
 
