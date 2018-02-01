@@ -6,7 +6,7 @@
 People who are active in the fairly new world of the cryptocurrencies want to be up-to-date all day long. \
 Coinr will take care of that!
 
-![alt text](https://github.com/jimiduiveman/CryptoApp/blob/master/doc/detail_ethereum.png)
+![alt text](https://github.com/jimiduiveman/CryptoApp/blob/master/doc/detail_ethereum.png =150x150)
 
 ## Technical Design 
 
