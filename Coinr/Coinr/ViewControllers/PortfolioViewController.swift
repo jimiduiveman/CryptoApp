@@ -198,6 +198,8 @@ class PortfolioViewController: UIViewController, UITableViewDataSource {
         }
 
         let set = PieChartDataSet( values: entries, label: "")
+        set.sliceSpace = 2
+        set.valueTextColor = UIColor.black
         let colors: [UIColor] = [UIColor(red: CGFloat(46.0/255), green: CGFloat(204.0/255), blue: CGFloat(113.0/255), alpha: 1),
                                  UIColor(red: CGFloat(52.0/255), green: CGFloat(152.0/255), blue: CGFloat(219.0/255), alpha: 1),
                                  UIColor(red: CGFloat(155.0/255), green: CGFloat(89.0/255), blue: CGFloat(182.0/255), alpha: 1),

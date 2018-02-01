@@ -291,6 +291,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         chartDataSet.drawFilledEnabled = true
         chartDataSet.highlightColor = UIColor.white
         
+        
         // Colors of the gradient, blue and clear
         let gradientColors = [#colorLiteral(red: 0.2747907639, green: 0.5571715236, blue: 0.8975776434, alpha: 1).cgColor, UIColor.clear.cgColor] as CFArray
         
@@ -305,6 +306,7 @@ class DetailViewController: UIViewController, ChartViewDelegate {
         lineChartView.highlightPerTapEnabled = true
         lineChartView.drawMarkers = false
         lineChartView.minOffset = 0
+
         
     }
 
