@@ -1,6 +1,6 @@
 # Report
 **Name:** Jimi Duiveman \
-**Student number:** 110132
+**Student number:** 11023163
 
 ## Description
 People who are active in the fairly new world of the cryptocurrencies want to be up-to-date all day long. \
