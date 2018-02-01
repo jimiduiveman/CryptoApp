@@ -96,3 +96,21 @@ Implemented a pie chart with percentages of your holdings.
 Made some improvements regarding messages, when there are more than 25 messages, the last one will be removed from Firebase and tableview.
 Cleaned up the repository.
 Fixed some comments in code.
+
+### Tuesday
+
+Did the code review and made some minor changes.
+App works perfectly.
+
+### Wednesday
+
+Added a final functionality, users can delete a trade by swiping from right to left over a cell.
+Started with writing the final report and added a license to the repository.
+
+### Thursday
+
+Finished writing the final report and updated the read me.
+
+### Friday
+
+Completed the product demo.
