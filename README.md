@@ -3,6 +3,12 @@
 **Name:** Jimi Duiveman \
 **Studentnumber:** 11023163
 
+## Screenshots
+
+<img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_login.png" width="200"> <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_coins.png" width="200"> <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/detail_ethereum.png" width="200"> <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_maketrade.png" width="200">
+<img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_trades.png" width="200"> <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_portfolio.png" width="200"> <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_social.png" width="200">
+
+
 ## Purpose
 
 People who are active in the fairly new world of the cryptocurrencies want to be up-to-date all day long.\
