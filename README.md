@@ -23,7 +23,9 @@ In addition to that you can to stay up to date with regards to activity of your 
 * https://coinmarketcap.com/api/ (data)
 * https://www.cryptocompare.com/api (data)
 
-## Plug-ins
-* CocoaPods Chart (Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda)
+## Plug-in
+#### CocoaPods Chart (Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda)
+**Website:** https://cocoapods.org/pods/charts \
+**License:** Licensed under the Apache License, Version 2.0 (the "License")
 
 
