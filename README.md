@@ -17,3 +17,13 @@ For those people Coinr is the best app! \
 The latest statistics of all coins and the total value of their portfolio is visible.\
 You get an overview of all your transactions. \
 In addition to that you can to stay up to date with regards to activity of your friends.
+
+## Data and platforms
+* https://firebase.google.com (platform)
+* https://coinmarketcap.com/api/ (data)
+* https://www.cryptocompare.com/api (data)
+
+## Plug-ins
+* CocoaPods Chart (Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda)
+
+
