@@ -23,6 +23,12 @@ In addition to that you can to stay up to date with regards to activity of your 
 * https://coinmarketcap.com/api/ (data)
 * https://www.cryptocompare.com/api (data)
 
+## Requirements
+* Swift 4.0
+* Xcode Version 9.2
+* Charts
+* Firebase ~> 4.0
+
 ## Plug-in
 #### CocoaPods Chart (Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda)
 **Website:** https://cocoapods.org/pods/charts \
