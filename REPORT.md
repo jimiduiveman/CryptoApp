@@ -77,26 +77,26 @@ Also a pie chart will be created based on the current value of your holdings, to
 
 #### Subject
 My very first challenge was determining the subject of my application.\
-I had no clue untill 5 pm, but finally had a great idea.\
+I had no clue untill 5 pm, but finally had a great idea.
 
 #### Theme
 When I started building my app I encountered a problem regarding the theme.\
 I had a really fine idea for the detail page with regards to the price history chart.\
 But that design didn't fit well into the overall design.\
-So I switched from a light theme to a completely dark theme for the app.\
+So I switched from a light theme to a completely dark theme for the app.
 
 #### Building
 I also encountered a problem when making a search function.\
 The search function must work with two different tableviews, connected by a segmented control.\
 I already implemented the two tableViewControllers, but I had to change it to one viewController.\
 In this viewController I had to manually put in the two different tableViews.\
-This caused a lot of work, especially because I already had it working without the search function.\
+This caused a lot of work, especially because I already had it working without the search function.
 
 #### Values and calculations
 Another problem was the calculation of trades.\
 When users put in the price and the amount, I wanted to calculate the total order value live.\
 There also is a difference between a "," and "." when calculating.\
-These two constraints made it difficult to implement the feature.\
+These two constraints made it difficult to implement the feature.
 
 #### User Experience
 In general, I've made a lot of changes regarding the UI.\
