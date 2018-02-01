@@ -1,7 +1,9 @@
 # <img src="https://github.com/jimiduiveman/CryptoApp/blob/master/doc/coinr_logo.png" width="30"> Coinr 
 
 **Name:** Jimi Duiveman \
-**Studentnumber:** 11023163
+**Studentnumber:** 11023163 \
+**Project Demo:** https://youtu.be/5z03KE9-HIU
+
 
 ## Screenshots
 
