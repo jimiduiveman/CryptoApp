@@ -2,7 +2,8 @@
 
 **Name:** Jimi Duiveman \
 **Studentnumber:** 11023163 \
-**Project Demo:** https://youtu.be/5z03KE9-HIU
+**Project Demo:** https://youtu.be/5z03KE9-HIU \
+**Copyright 2018 Jimi Duiveman**
 
 
 ## Screenshots
@@ -35,6 +36,3 @@ In addition to that you can to stay up to date with regards to activity of your 
 #### CocoaPods Chart (Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda)
 **Website:** https://cocoapods.org/pods/charts \
 **License:** Licensed under the Apache License, Version 2.0 (the "License")
-
-
-**Copyright 2018 Jimi Duiveman**
