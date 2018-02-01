@@ -94,6 +94,22 @@ class TradesTableViewController: UITableViewController {
     {
         return 50
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            // Remove item from tableview
+            self.trades.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            // Get specific trade
+            let tradesSorted = trades.sorted(by: {$0.timeStamp > $1.timeStamp})
+            let trade = tradesSorted[indexPath.row]
+            
+            // Remove trade from firebase
+            ref.child(userID!).child(trade.timeStamp).removeValue()
+        }
+    }
 
 
 }
